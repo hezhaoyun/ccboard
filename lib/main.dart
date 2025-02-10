@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
           height: size,
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: Colors.black38),
             borderRadius: BorderRadius.circular(size / 2),
           ),
           child: Center(child: child),
