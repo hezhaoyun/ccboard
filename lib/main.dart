@@ -55,6 +55,21 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  PieceMap pieceMap() => PieceMap(
+    K: (size) => WhiteKing(size: size),
+    Q: (size) => WhiteQueen(size: size),
+    B: (size) => WhiteBishop(size: size),
+    N: (size) => WhiteKnight(size: size),
+    R: (size) => WhiteRook(size: size),
+    P: (size) => WhitePawn(size: size),
+    k: (size) => BlackKing(size: size),
+    q: (size) => BlackQueen(size: size),
+    b: (size) => BlackBishop(size: size),
+    n: (size) => BlackKnight(size: size),
+    r: (size) => BlackRook(size: size),
+    p: (size) => BlackPawn(size: size),
+  );
+
   void onPieceStartDrag(SquareInfo square, String piece) {
     showHintFields(square, piece);
   }
@@ -111,16 +126,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setDefaultFen() {
-    setState(() {
-      chess = chesslib.Chess.fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    });
+    setState(() => chess = chesslib.Chess.fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
     update();
   }
 
   void setRandomFen() {
-    setState(() {
-      chess = chesslib.Chess.fromFEN("3bK3/4B1P1/3p2N1/1rp3P1/2p2p2/p3n3/P5k1/6q1 w - - 0 1");
-    });
+    setState(() => chess = chesslib.Chess.fromFEN("3bK3/4B1P1/3p2N1/1rp3P1/2p2p2/p3n3/P5k1/6q1 w - - 0 1"));
     update();
   }
 
@@ -139,15 +150,11 @@ class _MyAppState extends State<MyApp> {
     controller.setArrows([]);
   }
 
-  BoardOrientation orienatation = BoardOrientation.white;
-  void toggleArrows() {
-    setState(() {
-      if (orienatation == BoardOrientation.white) {
-        orienatation = BoardOrientation.black;
-      } else {
-        orienatation = BoardOrientation.white;
-      }
-    });
+  BoardOrientation orientation = BoardOrientation.white;
+  void toggleOrientation() {
+    setState(
+      () => orientation = orientation == BoardOrientation.white ? BoardOrientation.black : BoardOrientation.white,
+    );
   }
 
   @override
@@ -163,7 +170,7 @@ class _MyAppState extends State<MyApp> {
               children: [
                 WPChessboard(
                   size: size,
-                  orientation: orienatation,
+                  orientation: orientation,
                   squareBuilder: squareBuilder,
                   controller: controller,
                   // Dont pass any onPieceDrop handler to disable drag and drop
@@ -173,28 +180,15 @@ class _MyAppState extends State<MyApp> {
                   onEmptyFieldTap: onEmptyFieldTap,
                   turnTopPlayerPieces: false,
                   ghostOnDrag: true,
-                  dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withOpacity(0.24)),
-                  pieceMap: PieceMap(
-                    K: (size) => WhiteKing(size: size),
-                    Q: (size) => WhiteQueen(size: size),
-                    B: (size) => WhiteBishop(size: size),
-                    N: (size) => WhiteKnight(size: size),
-                    R: (size) => WhiteRook(size: size),
-                    P: (size) => WhitePawn(size: size),
-                    k: (size) => BlackKing(size: size),
-                    q: (size) => BlackQueen(size: size),
-                    b: (size) => BlackBishop(size: size),
-                    n: (size) => BlackKnight(size: size),
-                    r: (size) => BlackRook(size: size),
-                    p: (size) => BlackPawn(size: size),
-                  ),
+                  dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
+                  pieceMap: pieceMap(),
                 ),
                 const SizedBox(height: 24),
                 TextButton(onPressed: setDefaultFen, child: const Text("Set default Fen")),
                 TextButton(onPressed: setRandomFen, child: const Text("Set random Fen")),
                 TextButton(onPressed: addArrows, child: const Text("Add Arrows")),
                 TextButton(onPressed: removeArrows, child: const Text("Remove Arrows")),
-                TextButton(onPressed: toggleArrows, child: const Text("Change Orientation")),
+                TextButton(onPressed: toggleOrientation, child: const Text("Change Orientation")),
               ],
             );
           },
