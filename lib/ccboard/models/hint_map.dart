@@ -28,5 +28,5 @@ class HintMap {
     return this;
   }
 
-  HintBuilder? getHint(int rank, int file) => board[rank - 1]![file - 1];
+  HintBuilder? getHint(int rank, int file) => board[rank]![file];
 }

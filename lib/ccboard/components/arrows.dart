@@ -24,7 +24,7 @@ class ArrowPainter extends CustomPainter {
 
   Offset getPosition(Square loc) {
     double squareSize = size / 9;
-    return Offset(loc.fileIndex * squareSize + (squareSize / 2), size - loc.rankIndex * squareSize - (squareSize / 2));
+    return Offset(loc.file * squareSize + (squareSize / 2), size - loc.rank * squareSize - (squareSize / 2));
   }
 
   @override

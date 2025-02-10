@@ -45,8 +45,8 @@ class _DropTargetsState extends State<DropTargets> {
           builder: (context) {
             if (widget.dropIndicator == null || dropHover == null) return const SizedBox();
 
-            double left = (dropHover!.file - 1) * squareSize + squareSize / 2 - (widget.dropIndicator!.size / 2);
-            double bottom = (dropHover!.rank - 1) * squareSize + squareSize / 2 - (widget.dropIndicator!.size / 2);
+            double left = dropHover!.file * squareSize + squareSize / 2 - (widget.dropIndicator!.size / 2);
+            double bottom = dropHover!.rank * squareSize + squareSize / 2 - (widget.dropIndicator!.size / 2);
 
             return Positioned(
               bottom: bottom,
@@ -64,11 +64,11 @@ class _DropTargetsState extends State<DropTargets> {
             );
           },
         ),
-        ...(List<int>.generate(64, (i) => i + 1)).map((i) {
-          SquareInfo info = SquareInfo(i - 1, squareSize);
+        ...(List<int>.generate(64, (i) => i)).map((i) {
+          SquareInfo info = SquareInfo(i, squareSize);
 
-          double left = (info.file - 1) * squareSize;
-          double bottom = (info.rank - 1) * squareSize;
+          double left = info.file * squareSize;
+          double bottom = info.rank * squareSize;
 
           return Positioned(
             bottom: bottom,

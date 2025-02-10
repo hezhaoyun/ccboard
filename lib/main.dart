@@ -77,8 +77,8 @@ class _MyAppState extends State<MyApp> {
     // final hintMap = HintMap(key: square.index.toString());
     // for (var move in moves) {
     //   String to = move.toAlgebraic;
-    //   int rank = to.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
-    //   int file = to.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
+    //   int rank = to.codeUnitAt(1) - '0'.codeUnitAt(0);
+    //   int file = to.codeUnitAt(0) - 'a'.codeUnitAt(0);
 
     //   hintMap.set(rank, file, (size) => MoveHint(size: size, onPressed: () => doMove(move)));
     // }
@@ -105,10 +105,10 @@ class _MyAppState extends State<MyApp> {
   void doMove(chesslib.Move move) {
     // chess.move(move);
 
-    // int rankFrom = move.fromAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
-    // int fileFrom = move.fromAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
-    // int rankTo = move.toAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
-    // int fileTo = move.toAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
+    // int rankFrom = move.fromAlgebraic.codeUnitAt(1) - '0'.codeUnitAt(0);
+    // int fileFrom = move.fromAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0);
+    // int rankTo = move.toAlgebraic.codeUnitAt(1) - '0'.codeUnitAt(0);
+    // int fileTo = move.toAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0);
     // lastMove = [
     //   [rankFrom, fileFrom],
     //   [rankTo, fileTo],

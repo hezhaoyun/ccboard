@@ -13,11 +13,11 @@ class Hints extends StatelessWidget {
     double squareSize = size / 9;
 
     return Stack(
-      children: (List<int>.generate(90, (i) => i + 1)).map((i) {
-        final info = SquareInfo(i - 1, squareSize);
+      children: (List<int>.generate(90, (i) => i)).map((i) {
+        final info = SquareInfo(i, squareSize);
 
-        final left = (info.file - 1) * squareSize;
-        final bottom = (info.rank - 1) * squareSize;
+        final left = info.file * squareSize;
+        final bottom = info.rank * squareSize;
         final hint = hints.getHint(info.rank, info.file);
 
         return Positioned(bottom: bottom, left: left, child: hint != null ? hint(squareSize) : const SizedBox());

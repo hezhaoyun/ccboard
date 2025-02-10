@@ -80,7 +80,7 @@ class ChessState {
     return StateEntryDelta.replaced;
   }
 
-  StateEntry getEntry(int rank, int file) => _board[rank - 1]![file - 1]!;
+  StateEntry getEntry(int rank, int file) => _board[rank]![file]!;
 
   SquarePosition? findFrom(String piece) {
     if (last == null) return null;

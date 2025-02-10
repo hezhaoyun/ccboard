@@ -38,12 +38,12 @@ class Pieces extends StatelessWidget {
     double squareSize = size / 9;
 
     return Stack(
-      children: (List<int>.generate(90, (i) => i + 1)).map((i) {
-        SquareInfo info = SquareInfo(i - 1, squareSize);
+      children: (List<int>.generate(90, (i) => i)).map((i) {
+        SquareInfo info = SquareInfo(i, squareSize);
         StateEntry pieceEntry = state.getEntry(info.rank, info.file);
 
-        double left = (info.file - 1) * squareSize;
-        double bottom = (info.rank - 1) * squareSize;
+        double left = info.file * squareSize;
+        double bottom = info.rank * squareSize;
 
         if (pieceEntry.piece == '') {
           return Positioned(
