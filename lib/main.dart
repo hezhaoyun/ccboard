@@ -158,42 +158,40 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'WPChessboard Demo',
-      home: Scaffold(
-        body: Builder(
-          builder: (context) {
-            final double size = MediaQuery.of(context).size.shortestSide;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                WPChessboard(
-                  size: size,
-                  orientation: orientation,
-                  squareBuilder: squareBuilder,
-                  controller: controller,
-                  // Dont pass any onPieceDrop handler to disable drag and drop
-                  onPieceDrop: onPieceDrop,
-                  onPieceTap: onPieceTap,
-                  onPieceStartDrag: onPieceStartDrag,
-                  onEmptyFieldTap: onEmptyFieldTap,
-                  turnTopPlayerPieces: false,
-                  ghostOnDrag: true,
-                  dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
-                  pieceMap: pieceMap(),
-                ),
-                const SizedBox(height: 24),
-                TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
-                TextButton(onPressed: setRandomFen, child: const Text('Set random Fen')),
-                TextButton(onPressed: addArrows, child: const Text('Add Arrows')),
-                TextButton(onPressed: removeArrows, child: const Text('Remove Arrows')),
-                TextButton(onPressed: toggleOrientation, child: const Text('Change Orientation')),
-              ],
-            );
-          },
-        ),
+  Widget build(BuildContext context) => MaterialApp(
+    title: 'WPChessboard Demo',
+    home: Scaffold(
+      body: Builder(
+        builder: (context) {
+          final double size = MediaQuery.of(context).size.shortestSide;
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              WPChessboard(
+                size: size,
+                orientation: orientation,
+                squareBuilder: squareBuilder,
+                controller: controller,
+                // Dont pass any onPieceDrop handler to disable drag and drop
+                onPieceDrop: onPieceDrop,
+                onPieceTap: onPieceTap,
+                onPieceStartDrag: onPieceStartDrag,
+                onEmptyFieldTap: onEmptyFieldTap,
+                turnTopPlayerPieces: false,
+                ghostOnDrag: true,
+                dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
+                pieceMap: pieceMap(),
+              ),
+              const SizedBox(height: 24),
+              TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
+              TextButton(onPressed: setRandomFen, child: const Text('Set random Fen')),
+              TextButton(onPressed: addArrows, child: const Text('Add Arrows')),
+              TextButton(onPressed: removeArrows, child: const Text('Remove Arrows')),
+              TextButton(onPressed: toggleOrientation, child: const Text('Change Orientation')),
+            ],
+          );
+        },
       ),
-    );
-  }
+    ),
+  );
 }

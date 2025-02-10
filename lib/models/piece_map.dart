@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 typedef PieceBuilder = Widget Function(double size);
 
+// TODO: change to adapt to Chinese Chess
 class PieceMap {
   final PieceBuilder K;
   final PieceBuilder Q;
