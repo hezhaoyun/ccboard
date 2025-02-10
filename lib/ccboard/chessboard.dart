@@ -12,7 +12,7 @@ import 'models/drop_indicator_args.dart';
 import 'models/hint_map.dart';
 import 'models/piece_drop_event.dart';
 import 'models/piece_map.dart';
-import 'models/square_info.dart';
+import 'models/square.dart';
 
 class Chessboard extends StatefulWidget {
   final double size;
