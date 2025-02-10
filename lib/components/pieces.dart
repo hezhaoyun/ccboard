@@ -33,6 +33,7 @@ class Pieces extends StatelessWidget {
     required this.turnTopPlayerPieces,
   });
 
+  // TODO: change to adapt to Chinese Chess
   @override
   Widget build(BuildContext context) {
     double squareSize = size / 8;

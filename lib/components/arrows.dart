@@ -12,9 +12,8 @@ class Arrows extends StatelessWidget {
   const Arrows({super.key, required this.size, required this.arrows});
 
   @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(child: CustomPaint(painter: ArrowPainter(arrows, size), size: Size(size, size)));
-  }
+  Widget build(BuildContext context) =>
+      IgnorePointer(child: CustomPaint(painter: ArrowPainter(arrows, size), size: Size(size, size)));
 }
 
 class ArrowPainter extends CustomPainter {
@@ -23,12 +22,14 @@ class ArrowPainter extends CustomPainter {
 
   ArrowPainter(this.arrows, this.size);
 
+  // TODO: change to adapt to Chinese Chess
   Offset getPosition(SquareLocation loc) {
     double squareSize = size / 8;
 
     return Offset(loc.fileIndex * squareSize + (squareSize / 2), size - loc.rankIndex * squareSize - (squareSize / 2));
   }
 
+  // TODO: change to adapt to Chinese Chess
   @override
   void paint(Canvas canvas, Size size) {
     for (Arrow arrow in arrows) {
@@ -74,7 +75,5 @@ class ArrowPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

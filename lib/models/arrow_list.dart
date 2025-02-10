@@ -5,16 +5,11 @@ class ArrowList {
   late int _id;
 
   final List<Arrow> value;
-
-  int get id {
-    return _id;
-  }
-
   ArrowList(this.value) {
     _updateId();
   }
 
-  void _updateId() {
-    _id = _lastId++;
-  }
+  int get id => _id;
+
+  void _updateId() => _id = _lastId++;
 }

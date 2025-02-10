@@ -7,6 +7,7 @@ class Squares extends StatelessWidget {
 
   const Squares({super.key, required this.size, required this.squareBuilder});
 
+  // TODO: change to adapt to Chinese Chess
   @override
   Widget build(BuildContext context) {
     double squareSize = size / 8;

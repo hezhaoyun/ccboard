@@ -12,9 +12,7 @@ class StateEntry {
     return delta == StateEntryDelta.added || delta == StateEntryDelta.replaced ? state.findFrom(piece) : null;
   }
 
-  String getKey() {
-    return 'ste_${position}_$piece';
-  }
+  String getKey() => 'ste_${position}_$piece';
 }
 
 class SquarePosition {
@@ -24,9 +22,7 @@ class SquarePosition {
   SquarePosition(this.rank, this.file);
 
   @override
-  String toString() {
-    return rank.toString() + file.toString();
-  }
+  String toString() => '$rank$file';
 }
 
 class ChessState {
@@ -38,6 +34,7 @@ class ChessState {
   final String fen;
   late final Map<int, Map<int, StateEntry>> _board;
 
+  // TODO: change to adapt to Chinese Chess
   ChessState(this.fen, {this.last}) {
     Map<int, Map<int, StateEntry>> board = {};
 

@@ -8,6 +8,7 @@ class Hints extends StatelessWidget {
 
   const Hints({super.key, required this.size, required this.hints});
 
+  // TODO: change to adapt to Chinese Chess
   @override
   Widget build(BuildContext context) {
     double squareSize = size / 8;

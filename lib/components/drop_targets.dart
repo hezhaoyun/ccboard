@@ -20,27 +20,22 @@ class _DropTargetsState extends State<DropTargets> {
   void onMove(SquareInfo square, SquareInfo data) {
     if (data.index == square.index) {
       if (dropHover == null) return;
-      setState(() {
-        dropHover = null;
-      });
+      setState(() => dropHover = null);
       return;
     }
 
     if (dropHover == null || dropHover!.index != square.index) {
-      setState(() {
-        dropHover = square;
-      });
+      setState(() => dropHover = square);
     }
   }
 
   void onLeave(SquareInfo square) {
     if (dropHover != null && dropHover!.index == square.index) {
-      setState(() {
-        dropHover = null;
-      });
+      setState(() => dropHover = null);
     }
   }
 
+  // TODO: change to adapt to Chinese Chess
   @override
   Widget build(BuildContext context) {
     double squareSize = widget.size / 8;
