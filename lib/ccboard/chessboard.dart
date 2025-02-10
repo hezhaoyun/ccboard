@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'components/arrows.dart';
 import 'components/drop_targets.dart';
 import 'components/hints.dart';
 import 'components/pieces.dart';
 import 'components/squares.dart';
 import 'models/arrow.dart';
-import 'models/arrow_list.dart';
 import 'models/board_orientation.dart';
 import 'models/chess_state.dart';
 import 'models/drop_indicator_args.dart';

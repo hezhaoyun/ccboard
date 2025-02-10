@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../models/square.dart';
 import 'animated_piece_wrap.dart';
 import '../models/board_orientation.dart';
 import '../models/chess_state.dart';
 import '../models/piece_map.dart';
-import '../models/square_info.dart';
 
 class Pieces extends StatelessWidget {
   final double size;

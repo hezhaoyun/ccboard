@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/square_info.dart';
+
+import '../models/square.dart';
 
 class Squares extends StatelessWidget {
   final double size;

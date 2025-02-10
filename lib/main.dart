@@ -2,7 +2,7 @@ import 'package:chess/chess.dart' as chesslib;
 import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'ccboard/components/move_hint.dart';
+import 'ccboard/components/hints.dart';
 import 'ccboard/models/arrow.dart';
 import 'ccboard/models/board_orientation.dart';
 import 'ccboard/models/drop_indicator_args.dart';
@@ -10,7 +10,6 @@ import 'ccboard/models/hint_map.dart';
 import 'ccboard/models/piece_drop_event.dart';
 import 'ccboard/models/piece_map.dart';
 import 'ccboard/models/square.dart';
-import 'ccboard/models/square_info.dart';
 import 'ccboard/chessboard.dart';
 
 void main() {

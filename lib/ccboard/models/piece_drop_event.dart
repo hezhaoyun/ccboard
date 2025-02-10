@@ -1,4 +1,4 @@
-import 'square_info.dart';
+import 'square.dart';
 
 class PieceDropEvent {
   final SquareInfo from;

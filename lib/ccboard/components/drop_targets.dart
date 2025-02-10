@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/drop_indicator_args.dart';
 import '../models/piece_drop_event.dart';
-import '../models/square_info.dart';
+import '../models/square.dart';
 
 class DropTargets extends StatefulWidget {
   final double size;
