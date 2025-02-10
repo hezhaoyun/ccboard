@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './square.dart';
+import 'square.dart';
 
 class Arrow {
   final SquareLocation from;

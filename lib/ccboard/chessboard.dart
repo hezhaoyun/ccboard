@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import './components/arrows.dart';
-import './components/drop_targets.dart';
-import './components/hints.dart';
-import './components/pieces.dart';
-import './components/squares.dart';
-import './models/arrow.dart';
-import './models/arrow_list.dart';
-import './models/board_orientation.dart';
-import './models/chess_state.dart';
-import './models/drop_indicator_args.dart';
-import './models/hint_map.dart';
-import './models/piece_drop_event.dart';
-import './models/piece_map.dart';
-import './models/square_info.dart';
+import 'components/arrows.dart';
+import 'components/drop_targets.dart';
+import 'components/hints.dart';
+import 'components/pieces.dart';
+import 'components/squares.dart';
+import 'models/arrow.dart';
+import 'models/arrow_list.dart';
+import 'models/board_orientation.dart';
+import 'models/chess_state.dart';
+import 'models/drop_indicator_args.dart';
+import 'models/hint_map.dart';
+import 'models/piece_drop_event.dart';
+import 'models/piece_map.dart';
+import 'models/square_info.dart';
 
-class WPChessboard extends StatefulWidget {
+class Chessboard extends StatefulWidget {
   final double size;
   final Widget Function(SquareInfo) squareBuilder;
   final PieceMap pieceMap;
   final BoardOrientation orientation;
-  final WPChessboardController controller;
+  final ChessboardController controller;
   final void Function(SquareInfo square, String piece)? onPieceTap;
   final void Function(SquareInfo square, String piece)? onPieceStartDrag;
   final void Function(SquareInfo square)? onEmptyFieldTap;
@@ -28,7 +28,7 @@ class WPChessboard extends StatefulWidget {
   final bool turnTopPlayerPieces;
   final DropIndicatorArgs? dropIndicator;
 
-  const WPChessboard({
+  const Chessboard({
     super.key,
     required this.size,
     required this.squareBuilder,
@@ -45,10 +45,10 @@ class WPChessboard extends StatefulWidget {
   });
 
   @override
-  State<WPChessboard> createState() => _WPChessboardState();
+  State<Chessboard> createState() => _ChessboardState();
 }
 
-class _WPChessboardState extends State<WPChessboard> {
+class _ChessboardState extends State<Chessboard> {
   ChessState state = ChessState('');
   HintMap hints = HintMap();
   ArrowList arrows = ArrowList([]);
@@ -141,13 +141,13 @@ class _WPChessboardState extends State<WPChessboard> {
   );
 }
 
-class WPChessboardController extends ChangeNotifier {
+class ChessboardController extends ChangeNotifier {
   ChessState state = ChessState('');
   HintMap hints = HintMap();
   ArrowList arrows = ArrowList([]);
   bool shouldAnimate = true;
 
-  WPChessboardController({initialFen = ''}) {
+  ChessboardController({initialFen = ''}) {
     state = ChessState(initialFen);
   }
 

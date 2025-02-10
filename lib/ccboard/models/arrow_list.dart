@@ -1,4 +1,4 @@
-import './arrow.dart';
+import 'arrow.dart';
 
 class ArrowList {
   static int _lastId = 0;

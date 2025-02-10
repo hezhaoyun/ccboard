@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/animated_piece_wrap.dart';
+import 'animated_piece_wrap.dart';
 import '../models/board_orientation.dart';
 import '../models/chess_state.dart';
 import '../models/piece_map.dart';
