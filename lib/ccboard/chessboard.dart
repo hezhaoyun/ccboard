@@ -4,20 +4,18 @@ import 'components/arrows.dart';
 import 'components/drop_targets.dart';
 import 'components/hints.dart';
 import 'components/pieces.dart';
-import 'components/squares.dart';
 import 'models/arrow.dart';
 import 'models/board_orientation.dart';
 import 'models/chess_state.dart';
 import 'models/drop_indicator_args.dart';
 import 'models/hint_map.dart';
 import 'models/piece_drop_event.dart';
-import 'models/piece_map.dart';
+import 'models/ui_map.dart';
 import 'models/square.dart';
 
 class Chessboard extends StatefulWidget {
   final double size;
-  final Widget Function(SquareInfo) squareBuilder;
-  final PieceMap pieceMap;
+  final UIMap uiMap;
   final BoardOrientation orientation;
   final ChessboardController controller;
   final void Function(SquareInfo square, String piece)? onPieceTap;
@@ -31,8 +29,7 @@ class Chessboard extends StatefulWidget {
   const Chessboard({
     super.key,
     required this.size,
-    required this.squareBuilder,
-    required this.pieceMap,
+    required this.uiMap,
     required this.controller,
     this.onPieceTap,
     this.onPieceDrop,
@@ -100,23 +97,19 @@ class _ChessboardState extends State<Chessboard> {
   Widget build(BuildContext context) => Container(
         color: Colors.black,
         width: widget.size,
-        height: widget.size,
+        height: widget.size / 9 * 10,
         child: RotatedBox(
           quarterTurns: (widget.orientation == BoardOrientation.black) ? 2 : 0,
           child: Stack(
             children: [
-              Squares(
-                key: Key('squares_${widget.size}_${state.fen}'),
-                size: widget.size,
-                squareBuilder: widget.squareBuilder,
-              ),
+              widget.uiMap.bg(widget.size),
               Positioned.fill(
                 child: Pieces(
                   key: Key('pieces_${widget.size}_${state.fen}'),
                   size: widget.size,
                   orientation: widget.orientation,
                   turnTopPlayerPieces: widget.turnTopPlayerPieces,
-                  pieceMap: widget.pieceMap,
+                  uiMap: widget.uiMap,
                   state: state,
                   onPieceTap: widget.onPieceTap,
                   onPieceStartDrag: widget.onPieceStartDrag,

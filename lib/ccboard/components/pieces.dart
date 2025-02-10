@@ -3,11 +3,11 @@ import '../models/square.dart';
 import 'animated_piece_wrap.dart';
 import '../models/board_orientation.dart';
 import '../models/chess_state.dart';
-import '../models/piece_map.dart';
+import '../models/ui_map.dart';
 
 class Pieces extends StatelessWidget {
   final double size;
-  final PieceMap pieceMap;
+  final UIMap uiMap;
   final ChessState state;
   final BoardOrientation orientation;
   final void Function(SquareInfo square, String piece)? onPieceTap;
@@ -21,7 +21,7 @@ class Pieces extends StatelessWidget {
   const Pieces({
     super.key,
     required this.size,
-    required this.pieceMap,
+    required this.uiMap,
     required this.state,
     this.onPieceTap,
     this.onEmptyFieldTap,
@@ -33,65 +33,59 @@ class Pieces extends StatelessWidget {
     required this.turnTopPlayerPieces,
   });
 
-  // TODO: change to adapt to Chinese Chess
   @override
   Widget build(BuildContext context) {
-    double squareSize = size / 8;
+    double squareSize = size / 9;
 
     return Stack(
-      children:
-          (List<int>.generate(64, (i) => i + 1)).map((i) {
-            SquareInfo info = SquareInfo(i - 1, squareSize);
-            StateEntry pieceEntry = state.getEntry(info.rank, info.file);
+      children: (List<int>.generate(90, (i) => i + 1)).map((i) {
+        SquareInfo info = SquareInfo(i - 1, squareSize);
+        StateEntry pieceEntry = state.getEntry(info.rank, info.file);
 
-            double left = (info.file - 1) * squareSize;
-            double bottom = (info.rank - 1) * squareSize;
+        double left = (info.file - 1) * squareSize;
+        double bottom = (info.rank - 1) * squareSize;
 
-            if (pieceEntry.piece == '') {
-              return Positioned(
-                key: Key('piece_${info}_none'),
-                bottom: bottom,
-                left: left,
-                child: GestureDetector(
-                  onTapDown: onEmptyFieldTap != null ? (_) => onEmptyFieldTap!(info) : null,
-                  child: Container(color: Colors.transparent, width: squareSize, height: squareSize),
-                ),
-              );
-            }
+        if (pieceEntry.piece == '') {
+          return Positioned(
+            key: Key('piece_${info}_none'),
+            bottom: bottom,
+            left: left,
+            child: GestureDetector(
+              onTapDown: onEmptyFieldTap != null ? (_) => onEmptyFieldTap!(info) : null,
+              child: Container(color: Colors.transparent, width: squareSize, height: squareSize),
+            ),
+          );
+        }
 
-            Widget pieceWidget = pieceMap.get(pieceEntry.piece)(squareSize);
+        Widget pieceWidget = uiMap.get(pieceEntry.piece)(squareSize);
 
-            bool isBlackPiece = pieceEntry.piece.toLowerCase() == pieceEntry.piece;
-            bool shouldTurnPiece =
-                turnTopPlayerPieces &&
-                ((orientation == BoardOrientation.black && !isBlackPiece) ||
-                    (orientation == BoardOrientation.white && isBlackPiece));
+        bool isBlackPiece = pieceEntry.piece.toLowerCase() == pieceEntry.piece;
+        bool shouldTurnPiece = turnTopPlayerPieces &&
+            ((orientation == BoardOrientation.black && !isBlackPiece) ||
+                (orientation == BoardOrientation.white && isBlackPiece));
 
-            return AnimatedPieceWrap(
-              key: Key(pieceEntry.getKey()),
-              squareSize: squareSize,
-              stateEntry: pieceEntry,
-              animated: animated,
-              child: GestureDetector(
-                onTapDown: onPieceTap != null ? (_) => onPieceTap!(info, pieceEntry.piece) : null,
-                child: RotatedBox(
-                  quarterTurns: ((orientation == BoardOrientation.black) ? 2 : 0) + (shouldTurnPiece ? 2 : 0),
-                  child:
-                      disableDrag
-                          ? pieceWidget
-                          : Draggable<SquareInfo>(
-                            onDragStarted:
-                                onPieceStartDrag != null ? () => onPieceStartDrag!(info, pieceEntry.piece) : null,
-                            childWhenDragging:
-                                ghostOnDrag ? Opacity(opacity: 0.2, child: pieceWidget) : const SizedBox(),
-                            data: info,
-                            feedback: pieceWidget,
-                            child: pieceWidget,
-                          ),
-                ),
-              ),
-            );
-          }).toList(),
+        return AnimatedPieceWrap(
+          key: Key(pieceEntry.getKey()),
+          squareSize: squareSize,
+          stateEntry: pieceEntry,
+          animated: animated,
+          child: GestureDetector(
+            onTapDown: onPieceTap != null ? (_) => onPieceTap!(info, pieceEntry.piece) : null,
+            child: RotatedBox(
+              quarterTurns: ((orientation == BoardOrientation.black) ? 2 : 0) + (shouldTurnPiece ? 2 : 0),
+              child: disableDrag
+                  ? pieceWidget
+                  : Draggable<SquareInfo>(
+                      onDragStarted: onPieceStartDrag != null ? () => onPieceStartDrag!(info, pieceEntry.piece) : null,
+                      childWhenDragging: ghostOnDrag ? Opacity(opacity: 0.2, child: pieceWidget) : const SizedBox(),
+                      data: info,
+                      feedback: pieceWidget,
+                      child: pieceWidget,
+                    ),
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }

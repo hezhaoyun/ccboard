@@ -1,16 +1,14 @@
 import 'package:chess/chess.dart' as chesslib;
-import 'package:chess_vectors_flutter/chess_vectors_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'ccboard/components/hints.dart';
+import 'ccboard/chessboard.dart';
 import 'ccboard/models/arrow.dart';
 import 'ccboard/models/board_orientation.dart';
 import 'ccboard/models/drop_indicator_args.dart';
 import 'ccboard/models/hint_map.dart';
 import 'ccboard/models/piece_drop_event.dart';
-import 'ccboard/models/piece_map.dart';
+import 'ccboard/models/ui_map.dart';
 import 'ccboard/models/square.dart';
-import 'ccboard/chessboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,49 +23,41 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final controller = ChessboardController();
-  chesslib.Chess chess = chesslib.Chess();
+  // chesslib.Chess chess = chesslib.Chess();
   List<List<int>>? lastMove;
 
-  // not working on drop
-  Widget squareBuilder(SquareInfo info) {
-    Color fieldColor = (info.index + info.rank) % 2 == 0 ? Colors.grey.shade200 : Colors.grey.shade600;
-    Color overlayColor = Colors.transparent;
+  String fen = 'rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1';
 
-    if (lastMove != null) {
-      if (lastMove!.first.first == info.rank && lastMove!.first.last == info.file) {
-        overlayColor = Colors.blueAccent.withAlpha(0x70);
-      } else if (lastMove!.last.first == info.rank && lastMove!.last.last == info.file) {
-        overlayColor = Colors.blueAccent.withAlpha(0xA0);
-      }
-    }
+  UIMap uiMap() {
+    Widget wrap(Widget child, double size) => Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.black),
+            borderRadius: BorderRadius.circular(size / 2),
+          ),
+          child: Center(child: child),
+        );
 
-    return Container(
-      color: fieldColor,
-      width: info.size,
-      height: info.size,
-      child: AnimatedContainer(
-        color: overlayColor,
-        width: info.size,
-        height: info.size,
-        duration: const Duration(milliseconds: 200),
-      ),
+    return UIMap(
+      bg: (size) => Image.asset('assets/images/board.png', width: size * 9, height: size * 10, fit: BoxFit.fill),
+      R: (size) => wrap(Text('R', style: TextStyle(color: Colors.red)), size),
+      N: (size) => wrap(Text('N', style: TextStyle(color: Colors.red)), size),
+      B: (size) => wrap(Text('B', style: TextStyle(color: Colors.red)), size),
+      A: (size) => wrap(Text('A', style: TextStyle(color: Colors.red)), size),
+      K: (size) => wrap(Text('K', style: TextStyle(color: Colors.red)), size),
+      C: (size) => wrap(Text('C', style: TextStyle(color: Colors.red)), size),
+      P: (size) => wrap(Text('P', style: TextStyle(color: Colors.red)), size),
+      r: (size) => wrap(Text('r', style: TextStyle(color: Colors.black)), size),
+      n: (size) => wrap(Text('n', style: TextStyle(color: Colors.black)), size),
+      b: (size) => wrap(Text('b', style: TextStyle(color: Colors.black)), size),
+      a: (size) => wrap(Text('a', style: TextStyle(color: Colors.black)), size),
+      k: (size) => wrap(Text('k', style: TextStyle(color: Colors.black)), size),
+      c: (size) => wrap(Text('c', style: TextStyle(color: Colors.black)), size),
+      p: (size) => wrap(Text('p', style: TextStyle(color: Colors.black)), size),
     );
   }
-
-  PieceMap pieceMap() => PieceMap(
-    K: (size) => WhiteKing(size: size),
-    Q: (size) => WhiteQueen(size: size),
-    B: (size) => WhiteBishop(size: size),
-    N: (size) => WhiteKnight(size: size),
-    R: (size) => WhiteRook(size: size),
-    P: (size) => WhitePawn(size: size),
-    k: (size) => BlackKing(size: size),
-    q: (size) => BlackQueen(size: size),
-    b: (size) => BlackBishop(size: size),
-    n: (size) => BlackKnight(size: size),
-    r: (size) => BlackRook(size: size),
-    p: (size) => BlackPawn(size: size),
-  );
 
   void onPieceStartDrag(SquareInfo square, String piece) {
     showHintFields(square, piece);
@@ -81,67 +71,60 @@ class _MyAppState extends State<MyApp> {
     showHintFields(square, piece);
   }
 
+  // TODO: 提示
   void showHintFields(SquareInfo square, String piece) {
-    final moves = chess.generate_moves({'square': square.toString()});
-    final hintMap = HintMap(key: square.index.toString());
-    for (var move in moves) {
-      String to = move.toAlgebraic;
-      int rank = to.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
-      int file = to.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
+    // final moves = chess.generate_moves({'square': square.toString()});
+    // final hintMap = HintMap(key: square.index.toString());
+    // for (var move in moves) {
+    //   String to = move.toAlgebraic;
+    //   int rank = to.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
+    //   int file = to.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
 
-      hintMap.set(rank, file, (size) => MoveHint(size: size, onPressed: () => doMove(move)));
-    }
-    controller.setHints(hintMap);
+    //   hintMap.set(rank, file, (size) => MoveHint(size: size, onPressed: () => doMove(move)));
+    // }
+    // controller.setHints(hintMap);
   }
 
   void onEmptyFieldTap(SquareInfo square) {
     controller.setHints(HintMap());
   }
 
+  // TODO: 落子
   void onPieceDrop(PieceDropEvent event) {
-    chess.move({'from': event.from.toString(), 'to': event.to.toString()});
+    // chess.move({'from': event.from.toString(), 'to': event.to.toString()});
 
-    lastMove = [
-      [event.from.rank, event.from.file],
-      [event.to.rank, event.to.file],
-    ];
+    // lastMove = [
+    //   [event.from.rank, event.from.file],
+    //   [event.to.rank, event.to.file],
+    // ];
 
-    update(animated: false);
+    // controller.setFen(chess.fen, animation: false);
   }
 
+  // TODO: 走棋
   void doMove(chesslib.Move move) {
-    chess.move(move);
+    // chess.move(move);
 
-    int rankFrom = move.fromAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
-    int fileFrom = move.fromAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
-    int rankTo = move.toAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
-    int fileTo = move.toAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
-    lastMove = [
-      [rankFrom, fileFrom],
-      [rankTo, fileTo],
-    ];
+    // int rankFrom = move.fromAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
+    // int fileFrom = move.fromAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
+    // int rankTo = move.toAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
+    // int fileTo = move.toAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
+    // lastMove = [
+    //   [rankFrom, fileFrom],
+    //   [rankTo, fileTo],
+    // ];
 
-    update();
+    // controller.setFen(chess.fen, animation: false);
   }
 
   void setDefaultFen() {
-    setState(() => chess = chesslib.Chess.fromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'));
-    update();
-  }
-
-  void setRandomFen() {
-    setState(() => chess = chesslib.Chess.fromFEN('3bK3/4B1P1/3p2N1/1rp3P1/2p2p2/p3n3/P5k1/6q1 w - - 0 1'));
-    update();
-  }
-
-  void update({bool animated = true}) {
-    controller.setFen(chess.fen, animation: animated);
+    controller.setFen(fen);
   }
 
   void addArrows() {
     controller.setArrows([
-      Arrow(from: SquareLocation.fromString('b1'), to: SquareLocation.fromString('c3')),
-      Arrow(from: SquareLocation.fromString('g1'), to: SquareLocation.fromString('f3'), color: Colors.red),
+      Arrow(from: Square.fromString('b1'), to: Square.fromString('c3')),
+      Arrow(from: Square.fromString('g1'), to: Square.fromString('f3'), color: Colors.red),
     ]);
   }
 
@@ -158,39 +141,37 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'WPChessboard Demo',
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          final double size = MediaQuery.of(context).size.shortestSide;
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Chessboard(
-                size: size,
-                orientation: orientation,
-                squareBuilder: squareBuilder,
-                controller: controller,
-                // Dont pass any onPieceDrop handler to disable drag and drop
-                onPieceDrop: onPieceDrop,
-                onPieceTap: onPieceTap,
-                onPieceStartDrag: onPieceStartDrag,
-                onEmptyFieldTap: onEmptyFieldTap,
-                turnTopPlayerPieces: false,
-                ghostOnDrag: true,
-                dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
-                pieceMap: pieceMap(),
-              ),
-              const SizedBox(height: 24),
-              TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
-              TextButton(onPressed: setRandomFen, child: const Text('Set random Fen')),
-              TextButton(onPressed: addArrows, child: const Text('Add Arrows')),
-              TextButton(onPressed: removeArrows, child: const Text('Remove Arrows')),
-              TextButton(onPressed: toggleOrientation, child: const Text('Change Orientation')),
-            ],
-          );
-        },
-      ),
-    ),
-  );
+        title: 'WPChessboard Demo',
+        home: Scaffold(
+          body: Builder(
+            builder: (context) {
+              final double size = MediaQuery.of(context).size.shortestSide;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Chessboard(
+                    size: size,
+                    orientation: orientation,
+                    controller: controller,
+                    // Dont pass any onPieceDrop handler to disable drag and drop
+                    onPieceDrop: onPieceDrop,
+                    onPieceTap: onPieceTap,
+                    onPieceStartDrag: onPieceStartDrag,
+                    onEmptyFieldTap: onEmptyFieldTap,
+                    turnTopPlayerPieces: false,
+                    ghostOnDrag: true,
+                    dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
+                    uiMap: uiMap(),
+                  ),
+                  const SizedBox(height: 24),
+                  TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
+                  TextButton(onPressed: addArrows, child: const Text('Add Arrows')),
+                  TextButton(onPressed: removeArrows, child: const Text('Remove Arrows')),
+                  TextButton(onPressed: toggleOrientation, child: const Text('Change Orientation')),
+                ],
+              );
+            },
+          ),
+        ),
+      );
 }

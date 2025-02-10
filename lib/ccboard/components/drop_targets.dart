@@ -35,10 +35,9 @@ class _DropTargetsState extends State<DropTargets> {
     }
   }
 
-  // TODO: change to adapt to Chinese Chess
   @override
   Widget build(BuildContext context) {
-    double squareSize = widget.size / 8;
+    double squareSize = widget.size / 9;
 
     return Stack(
       children: [
@@ -65,7 +64,6 @@ class _DropTargetsState extends State<DropTargets> {
             );
           },
         ),
-
         ...(List<int>.generate(64, (i) => i + 1)).map((i) {
           SquareInfo info = SquareInfo(i - 1, squareSize);
 

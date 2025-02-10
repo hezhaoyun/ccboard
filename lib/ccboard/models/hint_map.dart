@@ -10,13 +10,12 @@ class HintMap {
 
   int get id => _id;
 
-  // TODO: change to adapt to Chinese Chess
   HintMap({this.key = ''}) {
     _updateId();
 
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 10; i++) {
       board[i] = {};
-      for (var j = 0; j < 8; j++) {
+      for (var j = 0; j < 9; j++) {
         board[i]![j] = null;
       }
     }

@@ -22,18 +22,15 @@ class ArrowPainter extends CustomPainter {
 
   ArrowPainter(this.arrows, this.size);
 
-  // TODO: change to adapt to Chinese Chess
-  Offset getPosition(SquareLocation loc) {
-    double squareSize = size / 8;
-
+  Offset getPosition(Square loc) {
+    double squareSize = size / 9;
     return Offset(loc.fileIndex * squareSize + (squareSize / 2), size - loc.rankIndex * squareSize - (squareSize / 2));
   }
 
-  // TODO: change to adapt to Chinese Chess
   @override
   void paint(Canvas canvas, Size size) {
     for (Arrow arrow in arrows) {
-      double squareWidth = size.width / 8;
+      double squareWidth = size.width / 9;
       double arrowHeadLen = squareWidth * 0.24;
       PointMode pointMode = PointMode.polygon;
       Offset from = getPosition(arrow.from);
@@ -44,22 +41,27 @@ class ArrowPainter extends CustomPainter {
 
       // Line
       double angle = atan2(to.dy - from.dy, to.dx - from.dx);
-      Paint linePaint =
-          Paint()
-            ..color = arrow.color
-            ..strokeWidth = 4
-            ..strokeCap = StrokeCap.round;
+      Paint linePaint = Paint()
+        ..color = arrow.color
+        ..strokeWidth = 4
+        ..strokeCap = StrokeCap.round;
       canvas.drawPoints(pointMode, [from, to], linePaint);
 
       // Arrow
-      canvas.drawPoints(pointMode, [
-        Offset(to.dx - arrowHeadLen * cos(angle - pi / 6), to.dy - arrowHeadLen * sin(angle - pi / 6)),
-        to,
-      ], linePaint);
-      canvas.drawPoints(pointMode, [
-        Offset(to.dx - arrowHeadLen * cos(angle + pi / 6), to.dy - arrowHeadLen * sin(angle + pi / 6)),
-        to,
-      ], linePaint);
+      canvas.drawPoints(
+          pointMode,
+          [
+            Offset(to.dx - arrowHeadLen * cos(angle - pi / 6), to.dy - arrowHeadLen * sin(angle - pi / 6)),
+            to,
+          ],
+          linePaint);
+      canvas.drawPoints(
+          pointMode,
+          [
+            Offset(to.dx - arrowHeadLen * cos(angle + pi / 6), to.dy - arrowHeadLen * sin(angle + pi / 6)),
+            to,
+          ],
+          linePaint);
 
       // Circle
       // Paint circlePaint1 = Paint()..color = arrow.color;

@@ -34,14 +34,13 @@ class ChessState {
   final String fen;
   late final Map<int, Map<int, StateEntry>> _board;
 
-  // TODO: change to adapt to Chinese Chess
   ChessState(this.fen, {this.last}) {
     Map<int, Map<int, StateEntry>> board = {};
 
     if (fen == '') {
-      for (var i = 0; i < 8; i++) {
+      for (var i = 0; i < 10; i++) {
         board[i] = {};
-        for (var j = 0; j < 8; j++) {
+        for (var j = 0; j < 9; j++) {
           board[i]![j] = StateEntry('', SquarePosition(i, j), this);
         }
       }
@@ -49,7 +48,7 @@ class ChessState {
       int rank = 0;
       for (var fenRank in fen.split('/')) {
         int file = 0;
-        int currRank = 7 - rank;
+        int currRank = 9 - rank;
         board[currRank] = {};
 
         for (var i = 0; i < fenRank.length; i++) {

@@ -8,23 +8,20 @@ class Hints extends StatelessWidget {
 
   const Hints({super.key, required this.size, required this.hints});
 
-  // TODO: change to adapt to Chinese Chess
   @override
   Widget build(BuildContext context) {
-    double squareSize = size / 8;
+    double squareSize = size / 9;
 
     return Stack(
-      children:
-          (List<int>.generate(64, (i) => i + 1)).map((i) {
-            SquareInfo info = SquareInfo(i - 1, squareSize);
+      children: (List<int>.generate(90, (i) => i + 1)).map((i) {
+        final info = SquareInfo(i - 1, squareSize);
 
-            double left = (info.file - 1) * squareSize;
-            double bottom = (info.rank - 1) * squareSize;
+        final left = (info.file - 1) * squareSize;
+        final bottom = (info.rank - 1) * squareSize;
+        final hint = hints.getHint(info.rank, info.file);
 
-            HintBuilder? hint = hints.getHint(info.rank, info.file);
-
-            return Positioned(bottom: bottom, left: left, child: hint != null ? hint(squareSize) : const SizedBox());
-          }).toList(),
+        return Positioned(bottom: bottom, left: left, child: hint != null ? hint(squareSize) : const SizedBox());
+      }).toList(),
     );
   }
 }
@@ -38,7 +35,7 @@ class MoveHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double hintSize = size * 0.2;
+    final hintSize = size * 0.2;
 
     return GestureDetector(
       onTapDown: onPressed != null ? (_) => onPressed!() : null,
