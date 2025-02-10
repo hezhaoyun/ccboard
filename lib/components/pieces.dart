@@ -46,9 +46,9 @@ class Pieces extends StatelessWidget {
             double left = (info.file - 1) * squareSize;
             double bottom = (info.rank - 1) * squareSize;
 
-            if (pieceEntry.piece == "") {
+            if (pieceEntry.piece == '') {
               return Positioned(
-                key: Key("piece_${info}_none"),
+                key: Key('piece_${info}_none'),
                 bottom: bottom,
                 left: left,
                 child: GestureDetector(

@@ -54,7 +54,7 @@ class _AnimatedPieceWrapState extends State<AnimatedPieceWrap> {
     double bottom = (rank) * widget.squareSize;
 
     return AnimatedPositioned(
-      key: Key("${widget.stateEntry.getKey()}_a"),
+      key: Key('${widget.stateEntry.getKey()}_a'),
       curve: Curves.easeInOut,
       duration: const Duration(milliseconds: 200),
       bottom: bottom,

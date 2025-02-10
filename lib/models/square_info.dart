@@ -8,6 +8,6 @@ class SquareInfo {
 
   @override
   String toString() {
-    return String.fromCharCode("a".codeUnitAt(0) + (file - 1)) + rank.toString();
+    return String.fromCharCode('a'.codeUnitAt(0) + (file - 1)) + rank.toString();
   }
 }

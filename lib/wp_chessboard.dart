@@ -49,7 +49,7 @@ class WPChessboard extends StatefulWidget {
 }
 
 class _WPChessboardState extends State<WPChessboard> {
-  ChessState state = ChessState("");
+  ChessState state = ChessState('');
   HintMap hints = HintMap();
   ArrowList arrows = ArrowList([]);
 
@@ -97,63 +97,57 @@ class _WPChessboardState extends State<WPChessboard> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      width: widget.size,
-      height: widget.size,
-      child: RotatedBox(
-        quarterTurns: (widget.orientation == BoardOrientation.black) ? 2 : 0,
-        child: Stack(
-          children: [
-            Squares(
-              key: Key("squares_${widget.size}_${state.fen}"),
+  Widget build(BuildContext context) => Container(
+    color: Colors.black,
+    width: widget.size,
+    height: widget.size,
+    child: RotatedBox(
+      quarterTurns: (widget.orientation == BoardOrientation.black) ? 2 : 0,
+      child: Stack(
+        children: [
+          Squares(
+            key: Key('squares_${widget.size}_${state.fen}'),
+            size: widget.size,
+            squareBuilder: widget.squareBuilder,
+          ),
+
+          Positioned.fill(
+            child: Pieces(
+              key: Key('pieces_${widget.size}_${state.fen}'),
               size: widget.size,
-              squareBuilder: widget.squareBuilder,
+              orientation: widget.orientation,
+              turnTopPlayerPieces: widget.turnTopPlayerPieces,
+              pieceMap: widget.pieceMap,
+              state: state,
+              onPieceTap: widget.onPieceTap,
+              onPieceStartDrag: widget.onPieceStartDrag,
+              disableDrag: widget.onPieceDrop == null,
+              ghostOnDrag: widget.ghostOnDrag,
+              onEmptyFieldTap: widget.onEmptyFieldTap,
+              animated: widget.controller.shouldAnimate,
             ),
+          ),
 
-            Positioned.fill(
-              child: Pieces(
-                key: Key("pieces_${widget.size}_${state.fen}"),
-                size: widget.size,
-                orientation: widget.orientation,
-                turnTopPlayerPieces: widget.turnTopPlayerPieces,
-                pieceMap: widget.pieceMap,
-                state: state,
-                onPieceTap: widget.onPieceTap,
-                onPieceStartDrag: widget.onPieceStartDrag,
-                disableDrag: widget.onPieceDrop == null,
-                ghostOnDrag: widget.ghostOnDrag,
-                onEmptyFieldTap: widget.onEmptyFieldTap,
-                animated: widget.controller.shouldAnimate,
-              ),
-            ),
+          Positioned.fill(child: Hints(key: Key(hints.id.toString()), size: widget.size, hints: hints)),
 
-            Positioned.fill(child: Hints(key: Key(hints.id.toString()), size: widget.size, hints: hints)),
+          Positioned.fill(child: Arrows(size: widget.size, arrows: arrows.value)),
 
-            Positioned.fill(child: Arrows(size: widget.size, arrows: arrows.value)),
-
-            Positioned.fill(
-              child: DropTargets(
-                size: widget.size,
-                onPieceDrop: widget.onPieceDrop,
-                dropIndicator: widget.dropIndicator,
-              ),
-            ),
-          ],
-        ),
+          Positioned.fill(
+            child: DropTargets(size: widget.size, onPieceDrop: widget.onPieceDrop, dropIndicator: widget.dropIndicator),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
 
 class WPChessboardController extends ChangeNotifier {
-  ChessState state = ChessState("");
+  ChessState state = ChessState('');
   HintMap hints = HintMap();
   ArrowList arrows = ArrowList([]);
   bool shouldAnimate = true;
 
-  WPChessboardController({initialFen = ""}) {
+  WPChessboardController({initialFen = ''}) {
     state = ChessState(initialFen);
   }
 

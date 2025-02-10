@@ -59,7 +59,7 @@ class PieceMap {
       case 'p':
         return p;
       default:
-        throw Exception("Invalid piece notation: '$notation'.");
+        throw Exception('Invalid piece notation: "$notation".');
     }
   }
 }

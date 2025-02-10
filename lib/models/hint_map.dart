@@ -12,7 +12,7 @@ class HintMap {
     return _id;
   }
 
-  HintMap({ this.key = "" }) {
+  HintMap({this.key = ''}) {
     _updateId();
     for (var i = 0; i < 8; i++) {
       board[i] = {};
@@ -27,12 +27,11 @@ class HintMap {
   }
 
   HintMap set(int rank, int file, HintBuilder? widget) {
-    board[rank-1]![file-1] = widget;
+    board[rank - 1]![file - 1] = widget;
     return this;
   }
 
   HintBuilder? getHint(int rank, int file) {
-     return board[rank-1]![file-1];
+    return board[rank - 1]![file - 1];
   }
-  
 }

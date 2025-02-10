@@ -87,8 +87,8 @@ class _MyAppState extends State<MyApp> {
     final hintMap = HintMap(key: square.index.toString());
     for (var move in moves) {
       String to = move.toAlgebraic;
-      int rank = to.codeUnitAt(1) - "1".codeUnitAt(0) + 1;
-      int file = to.codeUnitAt(0) - "a".codeUnitAt(0) + 1;
+      int rank = to.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
+      int file = to.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
 
       hintMap.set(rank, file, (size) => MoveHint(size: size, onPressed: () => doMove(move)));
     }
@@ -100,7 +100,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void onPieceDrop(PieceDropEvent event) {
-    chess.move({"from": event.from.toString(), "to": event.to.toString()});
+    chess.move({'from': event.from.toString(), 'to': event.to.toString()});
 
     lastMove = [
       [event.from.rank, event.from.file],
@@ -113,10 +113,10 @@ class _MyAppState extends State<MyApp> {
   void doMove(chesslib.Move move) {
     chess.move(move);
 
-    int rankFrom = move.fromAlgebraic.codeUnitAt(1) - "1".codeUnitAt(0) + 1;
-    int fileFrom = move.fromAlgebraic.codeUnitAt(0) - "a".codeUnitAt(0) + 1;
-    int rankTo = move.toAlgebraic.codeUnitAt(1) - "1".codeUnitAt(0) + 1;
-    int fileTo = move.toAlgebraic.codeUnitAt(0) - "a".codeUnitAt(0) + 1;
+    int rankFrom = move.fromAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
+    int fileFrom = move.fromAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
+    int rankTo = move.toAlgebraic.codeUnitAt(1) - '1'.codeUnitAt(0) + 1;
+    int fileTo = move.toAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0) + 1;
     lastMove = [
       [rankFrom, fileFrom],
       [rankTo, fileTo],
@@ -126,12 +126,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setDefaultFen() {
-    setState(() => chess = chesslib.Chess.fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+    setState(() => chess = chesslib.Chess.fromFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'));
     update();
   }
 
   void setRandomFen() {
-    setState(() => chess = chesslib.Chess.fromFEN("3bK3/4B1P1/3p2N1/1rp3P1/2p2p2/p3n3/P5k1/6q1 w - - 0 1"));
+    setState(() => chess = chesslib.Chess.fromFEN('3bK3/4B1P1/3p2N1/1rp3P1/2p2p2/p3n3/P5k1/6q1 w - - 0 1'));
     update();
   }
 
@@ -141,8 +141,8 @@ class _MyAppState extends State<MyApp> {
 
   void addArrows() {
     controller.setArrows([
-      Arrow(from: SquareLocation.fromString("b1"), to: SquareLocation.fromString("c3")),
-      Arrow(from: SquareLocation.fromString("g1"), to: SquareLocation.fromString("f3"), color: Colors.red),
+      Arrow(from: SquareLocation.fromString('b1'), to: SquareLocation.fromString('c3')),
+      Arrow(from: SquareLocation.fromString('g1'), to: SquareLocation.fromString('f3'), color: Colors.red),
     ]);
   }
 
@@ -184,11 +184,11 @@ class _MyAppState extends State<MyApp> {
                   pieceMap: pieceMap(),
                 ),
                 const SizedBox(height: 24),
-                TextButton(onPressed: setDefaultFen, child: const Text("Set default Fen")),
-                TextButton(onPressed: setRandomFen, child: const Text("Set random Fen")),
-                TextButton(onPressed: addArrows, child: const Text("Add Arrows")),
-                TextButton(onPressed: removeArrows, child: const Text("Remove Arrows")),
-                TextButton(onPressed: toggleOrientation, child: const Text("Change Orientation")),
+                TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
+                TextButton(onPressed: setRandomFen, child: const Text('Set random Fen')),
+                TextButton(onPressed: addArrows, child: const Text('Add Arrows')),
+                TextButton(onPressed: removeArrows, child: const Text('Remove Arrows')),
+                TextButton(onPressed: toggleOrientation, child: const Text('Change Orientation')),
               ],
             );
           },
