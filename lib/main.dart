@@ -1,14 +1,16 @@
-import 'package:chess/chess.dart' as chesslib;
 import 'package:flutter/material.dart';
 
 import 'ccboard/chessboard.dart';
+import 'ccboard/components/hints.dart';
 import 'ccboard/models/arrow.dart';
 import 'ccboard/models/board_orientation.dart';
 import 'ccboard/models/drop_indicator_args.dart';
 import 'ccboard/models/hint_map.dart';
 import 'ccboard/models/piece_drop_event.dart';
-import 'ccboard/models/ui_map.dart';
 import 'ccboard/models/square.dart';
+import 'ccboard/models/ui_map.dart';
+import 'cchess/cchess.dart';
+import 'cchess/move.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,8 +24,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final chess = CChess();
+
   final controller = ChessboardController();
-  // chesslib.Chess chess = chesslib.Chess();
   List<List<int>>? lastMove;
 
   String fen = 'rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1';
@@ -68,53 +71,46 @@ class _MyAppState extends State<MyApp> {
       controller.setHints(HintMap());
       return;
     }
+
     showHintFields(square, piece);
   }
 
-  // TODO: 提示
   void showHintFields(SquareInfo square, String piece) {
-    // final moves = chess.generate_moves({'square': square.toString()});
-    // final hintMap = HintMap(key: square.index.toString());
-    // for (var move in moves) {
-    //   String to = move.toAlgebraic;
-    //   int rank = to.codeUnitAt(1) - '0'.codeUnitAt(0);
-    //   int file = to.codeUnitAt(0) - 'a'.codeUnitAt(0);
+    final moves = chess.generateMoves(square.toString());
 
-    //   hintMap.set(rank, file, (size) => MoveHint(size: size, onPressed: () => doMove(move)));
-    // }
-    // controller.setHints(hintMap);
+    final hintMap = HintMap(key: square.index.toString());
+
+    for (var move in moves) {
+      hintMap.set(move.ty, move.tx, (size) => MoveHint(size: size, onPressed: () => doMove(move)));
+    }
+
+    controller.setHints(hintMap);
   }
 
   void onEmptyFieldTap(SquareInfo square) {
     controller.setHints(HintMap());
   }
 
-  // TODO: 落子
   void onPieceDrop(PieceDropEvent event) {
-    // chess.move({'from': event.from.toString(), 'to': event.to.toString()});
+    chess.move(Move(event.from.index, event.to.index));
 
-    // lastMove = [
-    //   [event.from.rank, event.from.file],
-    //   [event.to.rank, event.to.file],
-    // ];
+    lastMove = [
+      [event.from.rank, event.from.file],
+      [event.to.rank, event.to.file],
+    ];
 
-    // controller.setFen(chess.fen, animation: false);
+    controller.setFen(chess.fen, animation: false);
   }
 
-  // TODO: 走棋
-  void doMove(chesslib.Move move) {
-    // chess.move(move);
+  void doMove(Move move) {
+    chess.move(move);
 
-    // int rankFrom = move.fromAlgebraic.codeUnitAt(1) - '0'.codeUnitAt(0);
-    // int fileFrom = move.fromAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0);
-    // int rankTo = move.toAlgebraic.codeUnitAt(1) - '0'.codeUnitAt(0);
-    // int fileTo = move.toAlgebraic.codeUnitAt(0) - 'a'.codeUnitAt(0);
-    // lastMove = [
-    //   [rankFrom, fileFrom],
-    //   [rankTo, fileTo],
-    // ];
+    lastMove = [
+      [move.fy, move.fx],
+      [move.ty, move.tx],
+    ];
 
-    // controller.setFen(chess.fen, animation: false);
+    controller.setFen(chess.fen, animation: false);
   }
 
   void setDefaultFen() {
@@ -141,7 +137,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'WPChessboard Demo',
+        title: 'CCBoard Demo',
         home: Scaffold(
           body: Builder(
             builder: (context) {
