@@ -12,7 +12,6 @@ import 'models/hint_map.dart';
 import 'models/piece_drop_event.dart';
 import 'models/square.dart';
 import 'models/ui_adapter.dart';
-import 'ui/board_ui.dart';
 
 class Chessboard extends StatefulWidget {
   final double size;
@@ -49,20 +48,14 @@ class Chessboard extends StatefulWidget {
 class _ChessboardState extends State<Chessboard> {
   @override
   Widget build(BuildContext context) {
-    final fullBoardWidth = widget.size;
-    final scale = fullBoardWidth / BoardUI.kBoardArea.width;
-    final fullBoardHeight = BoardUI.kBoardArea.height * scale;
-    final realBoardWidth = BoardUI.kBoardLayoutArea.width * scale;
-    final realBoardHeight = BoardUI.kBoardLayoutArea.height * scale;
-
-    final hPadding = (fullBoardWidth - realBoardWidth) / 2;
-    final vPadding = (fullBoardHeight - realBoardHeight) / 2;
+    final realBoardWidth = widget.uiAdapter.realBoardWidth(widget.size);
+    final padding = widget.uiAdapter.innerBoardPadding(widget.size);
 
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(image: widget.uiAdapter.board, fit: BoxFit.fill),
       ),
-      padding: EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding),
+      padding: padding,
       child: InnerChessboard(
         size: realBoardWidth,
         orientation: widget.orientation,

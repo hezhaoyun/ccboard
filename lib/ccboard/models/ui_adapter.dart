@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ui/board_ui.dart';
+
 typedef PieceBuilder = Widget Function(double size);
 
 class UIAdapter {
@@ -70,5 +72,21 @@ class UIAdapter {
       default:
         throw Exception('Invalid piece notation: "$notation".');
     }
+  }
+
+  double realBoardWidth(double fullBoardWidth) {
+    final scale = fullBoardWidth / BoardUI.kBoardArea.width;
+    return BoardUI.kBoardLayoutArea.width * scale;
+  }
+
+  EdgeInsets innerBoardPadding(double fullBoardWidth) {
+    final scale = fullBoardWidth / BoardUI.kBoardArea.width;
+    final fullBoardHeight = BoardUI.kBoardArea.height * scale;
+    final realBoardWidth = BoardUI.kBoardLayoutArea.width * scale;
+    final realBoardHeight = BoardUI.kBoardLayoutArea.height * scale;
+
+    final hPadding = (fullBoardWidth - realBoardWidth) / 2;
+    final vPadding = (fullBoardHeight - realBoardHeight) / 2;
+    return EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding);
   }
 }
