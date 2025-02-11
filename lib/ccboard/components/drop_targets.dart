@@ -64,7 +64,7 @@ class _DropTargetsState extends State<DropTargets> {
             );
           },
         ),
-        ...(List<int>.generate(64, (i) => i)).map((i) {
+        ...(List<int>.generate(90, (i) => i)).map((i) {
           SquareInfo info = SquareInfo(i, squareSize);
 
           double left = info.file * squareSize;

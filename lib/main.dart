@@ -31,6 +31,9 @@ class _MyAppState extends State<MyApp> {
   List<List<int>>? lastMove;
 
   UIMap uiMap() {
+    Widget wt(String text, double size) => Text(text, style: TextStyle(color: Colors.red, fontSize: size / 2));
+    Widget bt(String text, double size) => Text(text, style: TextStyle(color: Colors.black, fontSize: size / 2));
+
     Widget wrap(Widget child, double size) => Container(
           width: size,
           height: size,
@@ -43,21 +46,26 @@ class _MyAppState extends State<MyApp> {
         );
 
     return UIMap(
-      bg: (size) => Image.asset('assets/images/board.png', width: size * 9, height: size * 10, fit: BoxFit.fill),
-      R: (size) => wrap(Text('R', style: TextStyle(color: Colors.red)), size),
-      N: (size) => wrap(Text('N', style: TextStyle(color: Colors.red)), size),
-      B: (size) => wrap(Text('B', style: TextStyle(color: Colors.red)), size),
-      A: (size) => wrap(Text('A', style: TextStyle(color: Colors.red)), size),
-      K: (size) => wrap(Text('K', style: TextStyle(color: Colors.red)), size),
-      C: (size) => wrap(Text('C', style: TextStyle(color: Colors.red)), size),
-      P: (size) => wrap(Text('P', style: TextStyle(color: Colors.red)), size),
-      r: (size) => wrap(Text('r', style: TextStyle(color: Colors.black)), size),
-      n: (size) => wrap(Text('n', style: TextStyle(color: Colors.black)), size),
-      b: (size) => wrap(Text('b', style: TextStyle(color: Colors.black)), size),
-      a: (size) => wrap(Text('a', style: TextStyle(color: Colors.black)), size),
-      k: (size) => wrap(Text('k', style: TextStyle(color: Colors.black)), size),
-      c: (size) => wrap(Text('c', style: TextStyle(color: Colors.black)), size),
-      p: (size) => wrap(Text('p', style: TextStyle(color: Colors.black)), size),
+      bg: (size) => Image.asset(
+        'assets/images/board.png',
+        width: size * 9,
+        height: size * 10,
+        fit: BoxFit.fill,
+      ),
+      R: (size) => wrap(wt('R', size), size),
+      N: (size) => wrap(wt('N', size), size),
+      B: (size) => wrap(wt('B', size), size),
+      A: (size) => wrap(wt('A', size), size),
+      K: (size) => wrap(wt('K', size), size),
+      C: (size) => wrap(wt('C', size), size),
+      P: (size) => wrap(wt('P', size), size),
+      r: (size) => wrap(bt('r', size), size),
+      n: (size) => wrap(bt('n', size), size),
+      b: (size) => wrap(bt('b', size), size),
+      a: (size) => wrap(bt('a', size), size),
+      k: (size) => wrap(bt('k', size), size),
+      c: (size) => wrap(bt('c', size), size),
+      p: (size) => wrap(bt('p', size), size),
     );
   }
 
@@ -98,7 +106,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void onPieceDrop(PieceDropEvent event) {
-    chess.move(Move(event.from.index, event.to.index));
+    final move = Move(event.from.index, event.to.index);
+
+    chess.move(move);
 
     lastMove = [
       [event.from.rank, event.from.file],
