@@ -10,12 +10,13 @@ import 'models/chess_state.dart';
 import 'models/drop_indicator_args.dart';
 import 'models/hint_map.dart';
 import 'models/piece_drop_event.dart';
-import 'models/ui_map.dart';
+import 'models/piece_map.dart';
 import 'models/square.dart';
+import 'ui/board_ui.dart';
 
 class Chessboard extends StatefulWidget {
   final double size;
-  final UIMap uiMap;
+  final PieceMap pieceMap;
   final BoardOrientation orientation;
   final ChessboardController controller;
   final void Function(SquareInfo square, String piece)? onPieceTap;
@@ -29,7 +30,7 @@ class Chessboard extends StatefulWidget {
   const Chessboard({
     super.key,
     required this.size,
-    required this.uiMap,
+    required this.pieceMap,
     required this.controller,
     this.onPieceTap,
     this.onPieceDrop,
@@ -46,6 +47,75 @@ class Chessboard extends StatefulWidget {
 }
 
 class _ChessboardState extends State<Chessboard> {
+  @override
+  Widget build(BuildContext context) {
+    final fullBoardWidth = widget.size;
+    final scale = fullBoardWidth / BoardUI.kBoardArea.width;
+
+    final fullBoardHeight = BoardUI.kBoardArea.height * scale;
+
+    final realBoardWidth = BoardUI.kBoardLayoutArea.width * scale;
+    final realBoardHeight = BoardUI.kBoardLayoutArea.height * scale;
+
+    final hPadding = (fullBoardWidth - realBoardWidth) / 2;
+    final vPadding = (fullBoardHeight - realBoardHeight) / 2;
+
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(image: BoardUI().getBoardImage()!, fit: BoxFit.fill),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding),
+      child: InnerChessboard(
+        size: realBoardWidth,
+        orientation: widget.orientation,
+        controller: widget.controller,
+        // Dont pass any onPieceDrop handler to disable drag and drop
+        onPieceDrop: widget.onPieceDrop,
+        onPieceTap: widget.onPieceTap,
+        onPieceStartDrag: widget.onPieceStartDrag,
+        onEmptyFieldTap: widget.onEmptyFieldTap,
+        turnTopPlayerPieces: false,
+        ghostOnDrag: true,
+        dropIndicator: DropIndicatorArgs(size: realBoardWidth / 2, color: Colors.lightBlue.withAlpha(0x30)),
+        pieceMap: widget.pieceMap,
+      ),
+    );
+  }
+}
+
+class InnerChessboard extends StatefulWidget {
+  final double size;
+  final PieceMap pieceMap;
+  final BoardOrientation orientation;
+  final ChessboardController controller;
+  final void Function(SquareInfo square, String piece)? onPieceTap;
+  final void Function(SquareInfo square, String piece)? onPieceStartDrag;
+  final void Function(SquareInfo square)? onEmptyFieldTap;
+  final void Function(PieceDropEvent)? onPieceDrop;
+  final bool ghostOnDrag;
+  final bool turnTopPlayerPieces;
+  final DropIndicatorArgs? dropIndicator;
+
+  const InnerChessboard({
+    super.key,
+    required this.size,
+    required this.pieceMap,
+    required this.controller,
+    this.onPieceTap,
+    this.onPieceDrop,
+    this.onEmptyFieldTap,
+    this.onPieceStartDrag,
+    this.orientation = BoardOrientation.white,
+    this.ghostOnDrag = false,
+    this.dropIndicator,
+    this.turnTopPlayerPieces = false,
+  });
+
+  @override
+  State<InnerChessboard> createState() => _InnerChessboardState();
+}
+
+class _InnerChessboardState extends State<InnerChessboard> {
   ChessState state = ChessState('');
   HintMap hints = HintMap();
   ArrowList arrows = ArrowList([]);
@@ -101,14 +171,13 @@ class _ChessboardState extends State<Chessboard> {
           quarterTurns: (widget.orientation == BoardOrientation.black) ? 2 : 0,
           child: Stack(
             children: [
-              widget.uiMap.bg(widget.size),
               Positioned.fill(
                 child: Pieces(
                   key: Key('pieces_${widget.size}_${state.fen}'),
                   size: widget.size,
                   orientation: widget.orientation,
                   turnTopPlayerPieces: widget.turnTopPlayerPieces,
-                  uiMap: widget.uiMap,
+                  pieceMap: widget.pieceMap,
                   state: state,
                   onPieceTap: widget.onPieceTap,
                   onPieceStartDrag: widget.onPieceStartDrag,

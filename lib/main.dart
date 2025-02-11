@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'ccboard/chessboard.dart';
 import 'ccboard/components/hints.dart';
@@ -8,7 +12,8 @@ import 'ccboard/models/drop_indicator_args.dart';
 import 'ccboard/models/hint_map.dart';
 import 'ccboard/models/piece_drop_event.dart';
 import 'ccboard/models/square.dart';
-import 'ccboard/models/ui_map.dart';
+import 'ccboard/models/piece_map.dart';
+import 'ccboard/ui/board_ui.dart';
 import 'cchess/cchess.dart';
 import 'cchess/move.dart';
 import 'cchess/position.dart';
@@ -30,42 +35,40 @@ class _MyAppState extends State<MyApp> {
   final controller = ChessboardController();
   List<List<int>>? lastMove;
 
-  UIMap uiMap() {
-    Widget wt(String text, double size) => Text(text, style: TextStyle(color: Colors.red, fontSize: size / 2));
-    Widget bt(String text, double size) => Text(text, style: TextStyle(color: Colors.black, fontSize: size / 2));
+  @override
+  void initState() {
+    super.initState();
+    _initAsync();
+  }
 
-    Widget wrap(Widget child, double size) => Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black38),
-            borderRadius: BorderRadius.circular(size / 2),
-          ),
-          child: Center(child: child),
-        );
+  bool _isLoaded = false;
 
-    return UIMap(
-      bg: (size) => Image.asset(
-        'assets/images/board.png',
-        width: size * 9,
-        height: size * 10,
-        fit: BoxFit.fill,
-      ),
-      R: (size) => wrap(wt('R', size), size),
-      N: (size) => wrap(wt('N', size), size),
-      B: (size) => wrap(wt('B', size), size),
-      A: (size) => wrap(wt('A', size), size),
-      K: (size) => wrap(wt('K', size), size),
-      C: (size) => wrap(wt('C', size), size),
-      P: (size) => wrap(wt('P', size), size),
-      r: (size) => wrap(bt('r', size), size),
-      n: (size) => wrap(bt('n', size), size),
-      b: (size) => wrap(bt('b', size), size),
-      a: (size) => wrap(bt('a', size), size),
-      k: (size) => wrap(bt('k', size), size),
-      c: (size) => wrap(bt('c', size), size),
-      p: (size) => wrap(bt('p', size), size),
+  Future<void> _initAsync() async {
+    final templatePath = await expandBoardImageAsset('assets/images/board.png');
+    if (templatePath == null) return;
+
+    await BoardUI().load(templatePath);
+    setState(() => _isLoaded = true);
+  }
+
+  PieceMap pieceMap() {
+    Widget wrap(ImageProvider image, double size) => Image(image: image, width: size, height: size, fit: BoxFit.fill);
+
+    return PieceMap(
+      R: (size) => wrap(BoardUI().getPieceImage('R')!, size),
+      N: (size) => wrap(BoardUI().getPieceImage('N')!, size),
+      B: (size) => wrap(BoardUI().getPieceImage('B')!, size),
+      A: (size) => wrap(BoardUI().getPieceImage('A')!, size),
+      K: (size) => wrap(BoardUI().getPieceImage('K')!, size),
+      C: (size) => wrap(BoardUI().getPieceImage('C')!, size),
+      P: (size) => wrap(BoardUI().getPieceImage('P')!, size),
+      r: (size) => wrap(BoardUI().getPieceImage('r')!, size),
+      n: (size) => wrap(BoardUI().getPieceImage('n')!, size),
+      b: (size) => wrap(BoardUI().getPieceImage('b')!, size),
+      a: (size) => wrap(BoardUI().getPieceImage('a')!, size),
+      k: (size) => wrap(BoardUI().getPieceImage('k')!, size),
+      c: (size) => wrap(BoardUI().getPieceImage('c')!, size),
+      p: (size) => wrap(BoardUI().getPieceImage('p')!, size),
     );
   }
 
@@ -157,34 +160,62 @@ class _MyAppState extends State<MyApp> {
         title: 'CCBoard Demo',
         home: Scaffold(
           body: Builder(
-            builder: (context) {
-              final double size = MediaQuery.of(context).size.shortestSide;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Chessboard(
-                    size: size,
-                    orientation: orientation,
-                    controller: controller,
-                    // Dont pass any onPieceDrop handler to disable drag and drop
-                    onPieceDrop: onPieceDrop,
-                    onPieceTap: onPieceTap,
-                    onPieceStartDrag: onPieceStartDrag,
-                    onEmptyFieldTap: onEmptyFieldTap,
-                    turnTopPlayerPieces: false,
-                    ghostOnDrag: true,
-                    dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
-                    uiMap: uiMap(),
-                  ),
-                  const SizedBox(height: 24),
-                  TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
-                  TextButton(onPressed: addArrows, child: const Text('Add Arrows')),
-                  TextButton(onPressed: removeArrows, child: const Text('Remove Arrows')),
-                  TextButton(onPressed: toggleOrientation, child: const Text('Change Orientation')),
-                ],
-              );
-            },
+            builder: (context) => _isLoaded ? buildBody(context) : const Center(child: CircularProgressIndicator()),
           ),
         ),
       );
+
+  Column buildBody(BuildContext context) {
+    final double size = MediaQuery.of(context).size.shortestSide;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Chessboard(
+          size: size,
+          orientation: orientation,
+          controller: controller,
+          // Dont pass any onPieceDrop handler to disable drag and drop
+          onPieceDrop: onPieceDrop,
+          onPieceTap: onPieceTap,
+          onPieceStartDrag: onPieceStartDrag,
+          onEmptyFieldTap: onEmptyFieldTap,
+          turnTopPlayerPieces: false,
+          ghostOnDrag: true,
+          dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
+          pieceMap: pieceMap(),
+        ),
+        const SizedBox(height: 24),
+        TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
+        TextButton(onPressed: addArrows, child: const Text('Add Arrows')),
+        TextButton(onPressed: removeArrows, child: const Text('Remove Arrows')),
+        TextButton(onPressed: toggleOrientation, child: const Text('Change Orientation')),
+      ],
+    );
+  }
+}
+
+Future<String?> expandBoardImageAsset(String assetPath) async {
+  const kBoardImageFolder = 'board-images';
+
+  Directory? docdir = await getDocDir();
+  if (docdir == null) return null;
+
+  final boardImagePath = Directory('${docdir.path}/$kBoardImageFolder/board.png');
+
+  if (!(await boardImagePath.exists())) {
+    await boardImagePath.parent.create(recursive: true);
+
+    final file = File(boardImagePath.path);
+    await file.create(recursive: true);
+
+    final bytes = await rootBundle.load(assetPath);
+    await file.writeAsBytes(bytes.buffer.asUint8List(), flush: true);
+  }
+
+  return boardImagePath.path;
+}
+
+Future<Directory?> getDocDir() async {
+  if (Platform.isAndroid) return await getExternalStorageDirectory();
+  return await getApplicationDocumentsDirectory();
 }

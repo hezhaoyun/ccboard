@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 typedef PieceBuilder = Widget Function(double size);
 
-class UIMap {
-  final PieceBuilder bg;
-
+class PieceMap {
   final PieceBuilder R;
   final PieceBuilder N;
   final PieceBuilder B;
@@ -20,8 +18,7 @@ class UIMap {
   final PieceBuilder c;
   final PieceBuilder p;
 
-  UIMap({
-    required this.bg,
+  PieceMap({
     required this.R,
     required this.N,
     required this.B,
@@ -40,8 +37,6 @@ class UIMap {
 
   PieceBuilder get(String notation) {
     switch (notation) {
-      case 'board':
-        return bg;
       case 'R':
         return R;
       case 'N':
