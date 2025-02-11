@@ -2,9 +2,9 @@ import 'package:image/image.dart' as pi;
 
 import 'package:flutter/material.dart';
 
-import '../../cchess/piece.dart';
+import '../cchess/piece.dart';
 
-class BoardUI {
+class BoardTemplate {
   static const kCacheKeyBoardArea = 'key-board-area';
   static const kValidImageSize = Size(810, 1138);
   static const kBoardArea = Rect.fromLTWH(50, 50, 710, 860);
@@ -16,9 +16,9 @@ class BoardUI {
   pi.Image? _texture, _piecesArea;
   Color? bgColor;
 
-  BoardUI._internal();
-  static final BoardUI _instance = BoardUI._internal();
-  factory BoardUI() => _instance;
+  BoardTemplate._internal();
+  static final BoardTemplate _instance = BoardTemplate._internal();
+  factory BoardTemplate() => _instance;
 
   Future<void> load(String textureFile) async {
     // clear cache

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ui/board_ui.dart';
+import '../board_template.dart';
 
 typedef PieceBuilder = Widget Function(double size);
 
@@ -75,15 +75,15 @@ class UIAdapter {
   }
 
   double realBoardWidth(double fullBoardWidth) {
-    final scale = fullBoardWidth / BoardUI.kBoardArea.width;
-    return BoardUI.kBoardLayoutArea.width * scale;
+    final scale = fullBoardWidth / BoardTemplate.kBoardArea.width;
+    return BoardTemplate.kBoardLayoutArea.width * scale;
   }
 
   EdgeInsets innerBoardPadding(double fullBoardWidth) {
-    final scale = fullBoardWidth / BoardUI.kBoardArea.width;
-    final fullBoardHeight = BoardUI.kBoardArea.height * scale;
-    final realBoardWidth = BoardUI.kBoardLayoutArea.width * scale;
-    final realBoardHeight = BoardUI.kBoardLayoutArea.height * scale;
+    final scale = fullBoardWidth / BoardTemplate.kBoardArea.width;
+    final fullBoardHeight = BoardTemplate.kBoardArea.height * scale;
+    final realBoardWidth = BoardTemplate.kBoardLayoutArea.width * scale;
+    final realBoardHeight = BoardTemplate.kBoardLayoutArea.height * scale;
 
     final hPadding = (fullBoardWidth - realBoardWidth) / 2;
     final vPadding = (fullBoardHeight - realBoardHeight) / 2;

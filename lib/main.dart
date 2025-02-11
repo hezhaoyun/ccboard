@@ -13,7 +13,7 @@ import 'ccboard/models/hint_map.dart';
 import 'ccboard/models/piece_drop_event.dart';
 import 'ccboard/models/square.dart';
 import 'ccboard/models/ui_adapter.dart';
-import 'ccboard/ui/board_ui.dart';
+import 'ccboard/board_template.dart';
 import 'cchess/cchess.dart';
 import 'cchess/move.dart';
 import 'cchess/position.dart';
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     final templatePath = await expandBoardImageAsset('assets/images/board.png');
     if (templatePath == null) return;
 
-    await BoardUI().load(templatePath);
+    await BoardTemplate().load(templatePath);
     setState(() => _isLoaded = true);
   }
 
@@ -55,21 +55,21 @@ class _MyAppState extends State<MyApp> {
     Widget wrap(ImageProvider image, double size) => Image(image: image, width: size, height: size, fit: BoxFit.fill);
 
     return UIAdapter(
-      board: BoardUI().getBoardImage()!,
-      R: (size) => wrap(BoardUI().getPieceImage('R')!, size),
-      N: (size) => wrap(BoardUI().getPieceImage('N')!, size),
-      B: (size) => wrap(BoardUI().getPieceImage('B')!, size),
-      A: (size) => wrap(BoardUI().getPieceImage('A')!, size),
-      K: (size) => wrap(BoardUI().getPieceImage('K')!, size),
-      C: (size) => wrap(BoardUI().getPieceImage('C')!, size),
-      P: (size) => wrap(BoardUI().getPieceImage('P')!, size),
-      r: (size) => wrap(BoardUI().getPieceImage('r')!, size),
-      n: (size) => wrap(BoardUI().getPieceImage('n')!, size),
-      b: (size) => wrap(BoardUI().getPieceImage('b')!, size),
-      a: (size) => wrap(BoardUI().getPieceImage('a')!, size),
-      k: (size) => wrap(BoardUI().getPieceImage('k')!, size),
-      c: (size) => wrap(BoardUI().getPieceImage('c')!, size),
-      p: (size) => wrap(BoardUI().getPieceImage('p')!, size),
+      board: BoardTemplate().getBoardImage()!,
+      R: (size) => wrap(BoardTemplate().getPieceImage('R')!, size),
+      N: (size) => wrap(BoardTemplate().getPieceImage('N')!, size),
+      B: (size) => wrap(BoardTemplate().getPieceImage('B')!, size),
+      A: (size) => wrap(BoardTemplate().getPieceImage('A')!, size),
+      K: (size) => wrap(BoardTemplate().getPieceImage('K')!, size),
+      C: (size) => wrap(BoardTemplate().getPieceImage('C')!, size),
+      P: (size) => wrap(BoardTemplate().getPieceImage('P')!, size),
+      r: (size) => wrap(BoardTemplate().getPieceImage('r')!, size),
+      n: (size) => wrap(BoardTemplate().getPieceImage('n')!, size),
+      b: (size) => wrap(BoardTemplate().getPieceImage('b')!, size),
+      a: (size) => wrap(BoardTemplate().getPieceImage('a')!, size),
+      k: (size) => wrap(BoardTemplate().getPieceImage('k')!, size),
+      c: (size) => wrap(BoardTemplate().getPieceImage('c')!, size),
+      p: (size) => wrap(BoardTemplate().getPieceImage('p')!, size),
     );
   }
 
