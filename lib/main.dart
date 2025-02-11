@@ -80,7 +80,14 @@ class _MyAppState extends State<MyApp> {
     final hintMap = HintMap(key: square.index.toString());
 
     for (var move in moves) {
-      hintMap.set(move.ty, move.tx, (size) => MoveHint(size: size, onPressed: () => doMove(move)));
+      hintMap.set(
+        move.ty,
+        move.tx,
+        (size) => MoveHint(
+          size: size,
+          onPressed: () => doMove(move),
+        ),
+      );
     }
 
     controller.setHints(hintMap);
@@ -109,7 +116,7 @@ class _MyAppState extends State<MyApp> {
       [move.ty, move.tx],
     ];
 
-    controller.setFen(chess.fen, animation: false);
+    controller.setFen(chess.fen);
   }
 
   void setDefaultFen() {

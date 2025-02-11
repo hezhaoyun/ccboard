@@ -154,6 +154,10 @@ class Rules {
 
   static List<Move> enumMovesOf(Position position, int index) {
     final piece = position.pieceAt(index);
+
+    if (piece == Piece.noPiece) return [];
+    if (PieceColor.of(piece) != position.sideToMove) return [];
+
     final rank = index ~/ 9, file = index % 9;
 
     List<Move> pieceMoves = [];

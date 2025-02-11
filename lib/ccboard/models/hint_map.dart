@@ -23,10 +23,7 @@ class HintMap {
 
   void _updateId() => _id = _lastId++;
 
-  HintMap set(int rank, int file, HintBuilder? widget) {
-    board[rank]![file] = widget;
-    return this;
-  }
+  void set(int rank, int file, HintBuilder? widget) => board[rank]![file] = widget;
 
   HintBuilder? getHint(int rank, int file) => board[rank]![file];
 }

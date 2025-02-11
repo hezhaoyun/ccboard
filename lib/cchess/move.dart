@@ -64,6 +64,8 @@ class Move {
         '${String.fromCharCode('a'.codeUnitAt(0) + tx)}${9 - ty}';
   }
 
+  Move flipCoordinateV() => Move.fromCoordinate(fx, 9 - fy, tx, 9 - ty);
+
   @override
   String toString() => move;
 
