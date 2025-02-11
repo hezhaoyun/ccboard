@@ -11,6 +11,7 @@ import 'ccboard/models/square.dart';
 import 'ccboard/models/ui_map.dart';
 import 'cchess/cchess.dart';
 import 'cchess/move.dart';
+import 'cchess/position.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,8 +29,6 @@ class _MyAppState extends State<MyApp> {
 
   final controller = ChessboardController();
   List<List<int>>? lastMove;
-
-  String fen = 'rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w - - 0 1';
 
   UIMap uiMap() {
     Widget wrap(Widget child, double size) => Container(
@@ -114,7 +113,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setDefaultFen() {
-    controller.setFen(fen);
+    chess.position = Position.defaultPosition();
+    controller.setFen(chess.fen);
   }
 
   void addArrows() {

@@ -94,8 +94,7 @@ class _ChessboardState extends State<Chessboard> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        color: Colors.black,
+  Widget build(BuildContext context) => SizedBox(
         width: widget.size,
         height: widget.size / 9 * 10,
         child: RotatedBox(
