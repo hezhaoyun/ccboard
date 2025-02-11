@@ -1,6 +1,6 @@
 import 'piece.dart';
 import 'position.dart';
-import 'rules.dart';
+import '../utils/rules.dart';
 
 class Move {
   static const invalidIndex = -1;

@@ -2,7 +2,7 @@ import 'package:image/image.dart' as pi;
 
 import 'package:flutter/material.dart';
 
-import '../cchess/piece.dart';
+import '../cchess/models/piece.dart';
 
 class BoardTemplate {
   static const kCacheKeyBoardArea = 'key-board-area';

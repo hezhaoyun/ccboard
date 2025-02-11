@@ -15,8 +15,8 @@ import 'ccboard/models/square.dart';
 import 'ccboard/models/ui_adapter.dart';
 import 'ccboard/board_template.dart';
 import 'cchess/cchess.dart';
-import 'cchess/move.dart';
-import 'cchess/position.dart';
+import 'cchess/models/move.dart';
+import 'cchess/models/position.dart';
 
 void main() {
   runApp(const MyApp());

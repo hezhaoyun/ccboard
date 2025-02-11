@@ -1,6 +1,6 @@
-import 'move.dart';
-import 'piece.dart';
-import 'position.dart';
+import '../models/move.dart';
+import '../models/piece.dart';
+import '../models/position.dart';
 
 class Rules {
   static String? validatePosition(Position position) {
