@@ -3,11 +3,11 @@ import '../models/square.dart';
 import 'animated_piece_wrap.dart';
 import '../models/board_orientation.dart';
 import '../models/chess_state.dart';
-import '../models/piece_map.dart';
+import '../models/ui_adapter.dart';
 
 class Pieces extends StatelessWidget {
   final double size;
-  final PieceMap pieceMap;
+  final UIAdapter uiAdapter;
   final ChessState state;
   final BoardOrientation orientation;
   final void Function(SquareInfo square, String piece)? onPieceTap;
@@ -21,7 +21,7 @@ class Pieces extends StatelessWidget {
   const Pieces({
     super.key,
     required this.size,
-    required this.pieceMap,
+    required this.uiAdapter,
     required this.state,
     this.onPieceTap,
     this.onEmptyFieldTap,
@@ -57,7 +57,7 @@ class Pieces extends StatelessWidget {
           );
         }
 
-        Widget pieceWidget = pieceMap.get(pieceEntry.piece)(squareSize);
+        Widget pieceWidget = uiAdapter.get(pieceEntry.piece)(squareSize);
 
         bool isBlackPiece = pieceEntry.piece.toLowerCase() == pieceEntry.piece;
         bool shouldTurnPiece = turnTopPlayerPieces &&

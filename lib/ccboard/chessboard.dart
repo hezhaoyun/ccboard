@@ -10,13 +10,13 @@ import 'models/chess_state.dart';
 import 'models/drop_indicator_args.dart';
 import 'models/hint_map.dart';
 import 'models/piece_drop_event.dart';
-import 'models/piece_map.dart';
 import 'models/square.dart';
+import 'models/ui_adapter.dart';
 import 'ui/board_ui.dart';
 
 class Chessboard extends StatefulWidget {
   final double size;
-  final PieceMap pieceMap;
+  final UIAdapter uiAdapter;
   final BoardOrientation orientation;
   final ChessboardController controller;
   final void Function(SquareInfo square, String piece)? onPieceTap;
@@ -30,7 +30,7 @@ class Chessboard extends StatefulWidget {
   const Chessboard({
     super.key,
     required this.size,
-    required this.pieceMap,
+    required this.uiAdapter,
     required this.controller,
     this.onPieceTap,
     this.onPieceDrop,
@@ -51,9 +51,7 @@ class _ChessboardState extends State<Chessboard> {
   Widget build(BuildContext context) {
     final fullBoardWidth = widget.size;
     final scale = fullBoardWidth / BoardUI.kBoardArea.width;
-
     final fullBoardHeight = BoardUI.kBoardArea.height * scale;
-
     final realBoardWidth = BoardUI.kBoardLayoutArea.width * scale;
     final realBoardHeight = BoardUI.kBoardLayoutArea.height * scale;
 
@@ -62,7 +60,7 @@ class _ChessboardState extends State<Chessboard> {
 
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(image: BoardUI().getBoardImage()!, fit: BoxFit.fill),
+        image: DecorationImage(image: widget.uiAdapter.board, fit: BoxFit.fill),
       ),
       padding: EdgeInsets.symmetric(horizontal: hPadding, vertical: vPadding),
       child: InnerChessboard(
@@ -77,7 +75,7 @@ class _ChessboardState extends State<Chessboard> {
         turnTopPlayerPieces: false,
         ghostOnDrag: true,
         dropIndicator: DropIndicatorArgs(size: realBoardWidth / 2, color: Colors.lightBlue.withAlpha(0x30)),
-        pieceMap: widget.pieceMap,
+        uiAdapter: widget.uiAdapter,
       ),
     );
   }
@@ -85,7 +83,7 @@ class _ChessboardState extends State<Chessboard> {
 
 class InnerChessboard extends StatefulWidget {
   final double size;
-  final PieceMap pieceMap;
+  final UIAdapter uiAdapter;
   final BoardOrientation orientation;
   final ChessboardController controller;
   final void Function(SquareInfo square, String piece)? onPieceTap;
@@ -99,7 +97,7 @@ class InnerChessboard extends StatefulWidget {
   const InnerChessboard({
     super.key,
     required this.size,
-    required this.pieceMap,
+    required this.uiAdapter,
     required this.controller,
     this.onPieceTap,
     this.onPieceDrop,
@@ -177,7 +175,7 @@ class _InnerChessboardState extends State<InnerChessboard> {
                   size: widget.size,
                   orientation: widget.orientation,
                   turnTopPlayerPieces: widget.turnTopPlayerPieces,
-                  pieceMap: widget.pieceMap,
+                  uiAdapter: widget.uiAdapter,
                   state: state,
                   onPieceTap: widget.onPieceTap,
                   onPieceStartDrag: widget.onPieceStartDrag,

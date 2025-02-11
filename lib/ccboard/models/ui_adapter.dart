@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 typedef PieceBuilder = Widget Function(double size);
 
-class PieceMap {
+class UIAdapter {
+  final ImageProvider board;
   final PieceBuilder R;
   final PieceBuilder N;
   final PieceBuilder B;
@@ -18,7 +19,8 @@ class PieceMap {
   final PieceBuilder c;
   final PieceBuilder p;
 
-  PieceMap({
+  UIAdapter({
+    required this.board,
     required this.R,
     required this.N,
     required this.B,

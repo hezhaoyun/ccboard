@@ -12,7 +12,7 @@ import 'ccboard/models/drop_indicator_args.dart';
 import 'ccboard/models/hint_map.dart';
 import 'ccboard/models/piece_drop_event.dart';
 import 'ccboard/models/square.dart';
-import 'ccboard/models/piece_map.dart';
+import 'ccboard/models/ui_adapter.dart';
 import 'ccboard/ui/board_ui.dart';
 import 'cchess/cchess.dart';
 import 'cchess/move.dart';
@@ -51,10 +51,11 @@ class _MyAppState extends State<MyApp> {
     setState(() => _isLoaded = true);
   }
 
-  PieceMap pieceMap() {
+  UIAdapter uiAdapter() {
     Widget wrap(ImageProvider image, double size) => Image(image: image, width: size, height: size, fit: BoxFit.fill);
 
-    return PieceMap(
+    return UIAdapter(
+      board: BoardUI().getBoardImage()!,
       R: (size) => wrap(BoardUI().getPieceImage('R')!, size),
       N: (size) => wrap(BoardUI().getPieceImage('N')!, size),
       B: (size) => wrap(BoardUI().getPieceImage('B')!, size),
@@ -182,7 +183,7 @@ class _MyAppState extends State<MyApp> {
           turnTopPlayerPieces: false,
           ghostOnDrag: true,
           dropIndicator: DropIndicatorArgs(size: size / 2, color: Colors.lightBlue.withAlpha(0x30)),
-          pieceMap: pieceMap(),
+          uiAdapter: uiAdapter(),
         ),
         const SizedBox(height: 24),
         TextButton(onPressed: setDefaultFen, child: const Text('Set default Fen')),
