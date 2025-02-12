@@ -27,7 +27,7 @@ class MoveRecorder {
   }
 
   void moveIn(Move move, String pieceColor) {
-    if (move.captured != Piece.noPiece) {
+    if ((move.data.captured ?? Piece.noPiece) != Piece.noPiece) {
       halfMove = 0;
     } else {
       halfMove++;
@@ -50,7 +50,7 @@ class MoveRecorder {
     var moves = <Move>[];
 
     for (var i = _history.length - 1; i >= 0; i--) {
-      if (_history[i].captured != Piece.noPiece) break;
+      if (_history[i].data.captured != Piece.noPiece) break;
       moves.add(_history[i]);
     }
 
@@ -61,14 +61,14 @@ class MoveRecorder {
     var moves = '', posAfterLastCaptured = -1;
 
     for (var i = _history.length - 1; i >= 0; i--) {
-      if (_history[i].captured != Piece.noPiece) {
+      if ((_history[i].data.captured ?? Piece.noPiece) != Piece.noPiece) {
         posAfterLastCaptured = i;
         break;
       }
     }
 
     for (var i = posAfterLastCaptured + 1; i < _history.length; i++) {
-      moves += ' ${_history[i].move}';
+      moves += ' ${_history[i].uci}';
     }
 
     return moves.isNotEmpty ? moves.substring(1) : '';
@@ -78,7 +78,7 @@ class MoveRecorder {
     var moves = '';
 
     for (var i = 0; i < _history.length; i++) {
-      moves += ' ${_history[i].move}';
+      moves += ' ${_history[i].uci}';
     }
 
     return moves.isNotEmpty ? moves.substring(1) : '';
@@ -91,10 +91,10 @@ class MoveRecorder {
       final n = (i / 2 + 1).toInt();
       final np = '${n < 10 ? ' ' : ''}$n';
 
-      moveList += '$np. ${_history[i].moveName}';
+      moveList += '$np. ${_history[i].data.moveName}';
 
       if (i + 1 < _history.length) {
-        moveList += '　${_history[i + 1].moveName}\n';
+        moveList += '　${_history[i + 1].data.moveName}\n';
       }
     }
 
@@ -113,7 +113,7 @@ class MoveRecorder {
       return spans;
     }
 
-    final isBlack = MoveName.blackDigits.contains(_history[0].moveName![3]);
+    final isBlack = MoveName.blackDigits.contains(_history[0].data.moveName![3]);
     final styleRed = TextStyle(fontSize: 14, color: textColor, backgroundColor: const Color(0x44FF0000));
     final styleBlack = TextStyle(fontSize: 14, color: textColor, backgroundColor: const Color(0x44000000));
     final styleSpace = TextStyle(fontSize: 14, color: textColor);
@@ -123,12 +123,12 @@ class MoveRecorder {
       final np = '${n < 10 ? ' ' : ''}$n. ';
 
       spans.add(TextSpan(text: np, style: styleSpace));
-      spans.add(TextSpan(text: _history[i].moveName, style: isBlack ? styleBlack : styleRed));
+      spans.add(TextSpan(text: _history[i].data.moveName, style: isBlack ? styleBlack : styleRed));
 
       spans.add(TextSpan(text: '　', style: styleSpace));
 
       if (i + 1 < _history.length) {
-        spans.add(TextSpan(text: _history[i + 1].moveName, style: isBlack ? styleRed : styleBlack));
+        spans.add(TextSpan(text: _history[i + 1].data.moveName, style: isBlack ? styleRed : styleBlack));
         spans.add(const TextSpan(text: '\n'));
       }
     }
@@ -140,7 +140,8 @@ class MoveRecorder {
     var result = '';
 
     for (var move in _history) {
-      result += '${move.fx}${move.fy}${move.tx}${move.ty}';
+      final (fx, fy, tx, ty) = move.coordinate;
+      result += '$fx$fy$tx$ty';
     }
 
     return result;

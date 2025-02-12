@@ -559,7 +559,9 @@ class Rules {
   }
 
   static bool validateKingMove(Position position, Move move) {
-    final adx = abs(move.tx - move.fx), ady = abs(move.ty - move.fy);
+    final (fx, fy, tx, ty) = move.coordinate;
+
+    final adx = abs(tx - fx), ady = abs(ty - fy);
 
     final isUpDownMove = (adx == 0 && ady == 1);
     final isLeftRightMove = (adx == 1 && ady == 0);
@@ -574,7 +576,9 @@ class Rules {
   }
 
   static bool validateAdvisorMove(Position position, Move move) {
-    final adx = abs(move.tx - move.fx), ady = abs(move.ty - move.fy);
+    final (fx, fy, tx, ty) = move.coordinate;
+
+    final adx = abs(tx - fx), ady = abs(ty - fy);
 
     if (adx != 1 || ady != 1) return false;
 
@@ -585,7 +589,9 @@ class Rules {
   }
 
   static bool validateBishopMove(Position position, Move move) {
-    final adx = abs(move.tx - move.fx), ady = abs(move.ty - move.fy);
+    final (fx, fy, tx, ty) = move.coordinate;
+
+    final adx = abs(tx - fx), ady = abs(ty - fy);
 
     if (adx != 2 || ady != 2) return false;
 
@@ -594,20 +600,20 @@ class Rules {
 
     if (binarySearch(range, 0, range.length - 1, move.to) < 0) return false;
 
-    if (move.tx > move.fx) {
-      if (move.ty > move.fy) {
-        final heart = (move.fy + 1) * 9 + move.fx + 1;
+    if (tx > fx) {
+      if (ty > fy) {
+        final heart = (fy + 1) * 9 + fx + 1;
         if (position.pieceAt(heart) != Piece.noPiece) return false;
       } else {
-        final heart = (move.fy - 1) * 9 + move.fx + 1;
+        final heart = (fy - 1) * 9 + fx + 1;
         if (position.pieceAt(heart) != Piece.noPiece) return false;
       }
     } else {
-      if (move.ty > move.fy) {
-        final heart = (move.fy + 1) * 9 + move.fx - 1;
+      if (ty > fy) {
+        final heart = (fy + 1) * 9 + fx - 1;
         if (position.pieceAt(heart) != Piece.noPiece) return false;
       } else {
-        final heart = (move.fy - 1) * 9 + move.fx - 1;
+        final heart = (fy - 1) * 9 + fx - 1;
         if (position.pieceAt(heart) != Piece.noPiece) return false;
       }
     }
@@ -616,25 +622,27 @@ class Rules {
   }
 
   static bool validateKnightMove(Position position, Move move) {
-    final dx = move.tx - move.fx, dy = move.ty - move.fy;
+    final (fx, fy, tx, ty) = move.coordinate;
+
+    final dx = tx - fx, dy = ty - fy;
     final adx = abs(dx), ady = abs(dy);
 
     if (!(adx == 1 && ady == 2) && !(adx == 2 && ady == 1)) return false;
 
     if (adx > ady) {
       if (dx > 0) {
-        final foot = move.fy * 9 + move.fx + 1;
+        final foot = fy * 9 + fx + 1;
         if (position.pieceAt(foot) != Piece.noPiece) return false;
       } else {
-        final foot = move.fy * 9 + move.fx - 1;
+        final foot = fy * 9 + fx - 1;
         if (position.pieceAt(foot) != Piece.noPiece) return false;
       }
     } else {
       if (dy > 0) {
-        final foot = (move.fy + 1) * 9 + move.fx;
+        final foot = (fy + 1) * 9 + fx;
         if (position.pieceAt(foot) != Piece.noPiece) return false;
       } else {
-        final foot = (move.fy - 1) * 9 + move.fx;
+        final foot = (fy - 1) * 9 + fx;
         if (position.pieceAt(foot) != Piece.noPiece) return false;
       }
     }
@@ -643,28 +651,30 @@ class Rules {
   }
 
   static bool validateRookMove(Position position, Move move) {
-    final dx = move.tx - move.fx, dy = move.ty - move.fy;
+    final (fx, fy, tx, ty) = move.coordinate;
+
+    final dx = tx - fx, dy = ty - fy;
 
     if (dx != 0 && dy != 0) return false;
 
     if (dy == 0) {
       if (dx < 0) {
-        for (var i = move.fx - 1; i > move.tx; i--) {
-          if (position.pieceAt(move.fy * 9 + i) != Piece.noPiece) return false;
+        for (var i = fx - 1; i > tx; i--) {
+          if (position.pieceAt(fy * 9 + i) != Piece.noPiece) return false;
         }
       } else {
-        for (var i = move.fx + 1; i < move.tx; i++) {
-          if (position.pieceAt(move.fy * 9 + i) != Piece.noPiece) return false;
+        for (var i = fx + 1; i < tx; i++) {
+          if (position.pieceAt(fy * 9 + i) != Piece.noPiece) return false;
         }
       }
     } else {
       if (dy < 0) {
-        for (var i = move.fy - 1; i > move.ty; i--) {
-          if (position.pieceAt(i * 9 + move.fx) != Piece.noPiece) return false;
+        for (var i = fy - 1; i > ty; i--) {
+          if (position.pieceAt(i * 9 + fx) != Piece.noPiece) return false;
         }
       } else {
-        for (var i = move.fy + 1; i < move.ty; i++) {
-          if (position.pieceAt(i * 9 + move.fx) != Piece.noPiece) return false;
+        for (var i = fy + 1; i < ty; i++) {
+          if (position.pieceAt(i * 9 + fx) != Piece.noPiece) return false;
         }
       }
     }
@@ -673,7 +683,9 @@ class Rules {
   }
 
   static bool validateCanonMove(Position position, Move move) {
-    final dx = move.tx - move.fx, dy = move.ty - move.fy;
+    final (fx, fy, tx, ty) = move.coordinate;
+
+    final dx = tx - fx, dy = ty - fy;
 
     if (dx != 0 && dy != 0) return false;
 
@@ -681,8 +693,8 @@ class Rules {
       if (dx < 0) {
         var overPiece = false;
 
-        for (var i = move.fx - 1; i > move.tx; i--) {
-          if (position.pieceAt(move.fy * 9 + i) != Piece.noPiece) {
+        for (var i = fx - 1; i > tx; i--) {
+          if (position.pieceAt(fy * 9 + i) != Piece.noPiece) {
             if (overPiece) return false;
 
             if (position.pieceAt(move.to) == Piece.noPiece) return false;
@@ -696,8 +708,8 @@ class Rules {
       } else {
         var overPiece = false;
 
-        for (var i = move.fx + 1; i < move.tx; i++) {
-          if (position.pieceAt(move.fy * 9 + i) != Piece.noPiece) {
+        for (var i = fx + 1; i < tx; i++) {
+          if (position.pieceAt(fy * 9 + i) != Piece.noPiece) {
             if (overPiece) return false;
 
             if (position.pieceAt(move.to) == Piece.noPiece) return false;
@@ -713,8 +725,8 @@ class Rules {
       if (dy < 0) {
         var overPiece = false;
 
-        for (var i = move.fy - 1; i > move.ty; i--) {
-          if (position.pieceAt(i * 9 + move.fx) != Piece.noPiece) {
+        for (var i = fy - 1; i > ty; i--) {
+          if (position.pieceAt(i * 9 + fx) != Piece.noPiece) {
             if (overPiece) return false;
 
             if (position.pieceAt(move.to) == Piece.noPiece) return false;
@@ -728,8 +740,8 @@ class Rules {
       } else {
         var overPiece = false;
 
-        for (var i = move.fy + 1; i < move.ty; i++) {
-          if (position.pieceAt(i * 9 + move.fx) != Piece.noPiece) {
+        for (var i = fy + 1; i < ty; i++) {
+          if (position.pieceAt(i * 9 + fx) != Piece.noPiece) {
             if (overPiece) return false;
 
             if (position.pieceAt(move.to) == Piece.noPiece) return false;
@@ -747,16 +759,18 @@ class Rules {
   }
 
   static bool validatePawnMove(Position position, Move move) {
-    final dy = move.ty - move.fy;
-    final adx = abs(move.tx - move.fx), ady = abs(move.ty - move.fy);
+    final (fx, fy, tx, ty) = move.coordinate;
+
+    final dy = ty - fy;
+    final adx = abs(tx - fx), ady = abs(ty - fy);
 
     if (adx > 1 || ady > 1 || (adx + ady) > 1) return false;
 
     if (position.sideToMove == PieceColor.red) {
-      if (move.fy > 4 && adx != 0) return false;
+      if (fy > 4 && adx != 0) return false;
       if (dy > 0) return false;
     } else {
-      if (move.fy < 5 && adx != 0) return false;
+      if (fy < 5 && adx != 0) return false;
       if (dy < 0) return false;
     }
 

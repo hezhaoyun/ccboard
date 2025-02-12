@@ -87,10 +87,10 @@ class Position with FenMixin {
     // 生成棋步，记录步数
     final captured = _pieces[move.to];
 
-    move.captured = captured;
-    move.counterMarks = _recorder.toString();
+    move.data.captured = captured;
+    move.data.counterMarks = _recorder.toString();
 
-    move.moveName = MoveName.translate(this, move);
+    move.data.moveName = MoveName.translate(this, move);
     _recorder.moveIn(move, _sideToMove);
 
     // 修改棋盘
@@ -124,22 +124,22 @@ class Position with FenMixin {
 
     if (lastMove != null) {
       _pieces[lastMove.from] = _pieces[lastMove.to];
-      _pieces[lastMove.to] = lastMove.captured;
+      _pieces[lastMove.to] = lastMove.data.captured ?? Piece.noPiece;
 
       _sideToMove = PieceColor.opponent(_sideToMove);
 
-      final counterMarks = MoveRecorder.parse(lastMove.counterMarks);
+      final counterMarks = MoveRecorder.parse(lastMove.data.counterMarks ?? '');
       _recorder.halfMove = counterMarks.halfMove;
       _recorder.fullMove = counterMarks.fullMove;
 
-      if (lastMove.captured != Piece.noPiece) {
+      if (lastMove.data.captured != Piece.noPiece) {
         // 查找上一个吃子局面（或开局），NativeEngine 需要
         final tempPosition = Position.clone(this);
 
         final moves = _recorder.reverseMovesToPrevCapture();
         for (var move in moves) {
           tempPosition._pieces[move.from] = tempPosition._pieces[move.to];
-          tempPosition._pieces[move.to] = move.captured;
+          tempPosition._pieces[move.to] = move.data.captured ?? Piece.noPiece;
 
           tempPosition._sideToMove = PieceColor.opponent(tempPosition._sideToMove);
         }

@@ -92,9 +92,11 @@ class _MyAppState extends State<MyApp> {
     final hintMap = HintMap(key: square.index.toString());
 
     for (var move in moves) {
+      final (fx, fy, tx, ty) = move.coordinateLB;
+
       hintMap.set(
-        move.ty,
-        move.tx,
+        ty,
+        tx,
         (size) => MoveHint(
           size: size,
           onPressed: () => doMove(move),
@@ -110,7 +112,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   void onPieceDrop(PieceDropEvent event) {
-    final move = Move(event.from.index, event.to.index);
+    ///
+    /// Index of event.from and event.to is from left-bottom corner
+    ///
+    final move = Move(
+      Move.toCoordinateLB(event.from.index),
+      Move.toCoordinateLB(event.to.index),
+    );
 
     chess.move(move);
 
@@ -124,10 +132,11 @@ class _MyAppState extends State<MyApp> {
 
   void doMove(Move move) {
     chess.move(move);
+    final (fx, fy, tx, ty) = move.coordinate;
 
     lastMove = [
-      [move.fy, move.fx],
-      [move.ty, move.tx],
+      [fy, fx],
+      [ty, tx],
     ];
 
     controller.setFen(chess.fen);
