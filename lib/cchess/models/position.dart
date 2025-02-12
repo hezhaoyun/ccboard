@@ -164,7 +164,7 @@ class Position with FenMixin {
     return _recorder.moveAt((_recorder.historyLength - 9) + index);
   }
 
-  bool isLongCheck() {
+  bool inLongCheck() {
     if (!appearRepeatPosition()) return false;
 
     final tempPosition = Position.clone(this);
