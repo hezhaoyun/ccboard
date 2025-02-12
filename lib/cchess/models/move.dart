@@ -44,9 +44,7 @@ class Move {
   }
 
   Move.fromUciMove(this.move, {this.score, this.depth, this.nodes, this.time, this.pv}) {
-    if (!isOk(move)) {
-      throw 'Error: Invalid Move: $move';
-    }
+    if (!isValid(move)) throw 'Error: Invalid Move: $move';
 
     fx = move[0].codeUnitAt(0) - 'a'.codeUnitAt(0);
     fy = 9 - (move[1].codeUnitAt(0) - '0'.codeUnitAt(0));
@@ -69,7 +67,7 @@ class Move {
   @override
   String toString() => move;
 
-  static bool isOk(String move) {
+  static bool isValid(String move) {
     if (move.length < 4) return false;
 
     final fx = move[0].codeUnitAt(0) - 'a'.codeUnitAt(0);
