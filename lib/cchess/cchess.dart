@@ -23,7 +23,7 @@ class CChess {
     final file = square[0].codeUnitAt(0) - 'a'.codeUnitAt(0);
     final rank = square[1].codeUnitAt(0) - '0'.codeUnitAt(0);
 
-    final index = (9 - rank) * 9 + file;
+    final index = file + (9 - rank) * 9;
     return Rules.enumMovesOf(_position, index);
   }
 
