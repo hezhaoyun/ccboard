@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import '../../common/x_reader.dart';
-import '../../common/archives.dart';
+import '../common/x_reader.dart';
+import '../common/archives.dart';
 import 'cbl2_manual.dart';
 
 /// 棋库文件信息结构(共20字节)

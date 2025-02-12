@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import '../../common/x_reader.dart';
+import '../common/x_reader.dart';
 import '../../cchess/models/piece.dart';
 import '../../cchess/utils/fen.dart';
 import '../base/manual_base.dart';

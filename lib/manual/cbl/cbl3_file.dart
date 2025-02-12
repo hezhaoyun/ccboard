@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import '../../common/x_reader.dart';
+import '../common/x_reader.dart';
 import 'cbl3_manual.dart';
 
 class CBL3File {

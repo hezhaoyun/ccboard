@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../../common/stack.dart';
-import '../../common/x_reader.dart';
+import '../common/stack.dart';
+import '../common/x_reader.dart';
 import '../../cchess/models/piece.dart';
 import '../../cchess/utils/fen.dart';
 import '../base/manual_base.dart';

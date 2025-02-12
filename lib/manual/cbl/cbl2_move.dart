@@ -1,5 +1,5 @@
-import '../../common/int_x.dart';
-import '../../common/x_reader.dart';
+import '../common/int_x.dart';
+import '../common/x_reader.dart';
 
 class CBL2Move {
   static const rPiecesA = '车马相仕帅炮兵前中后';

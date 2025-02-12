@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import '../../common/int_x.dart';
-import '../../common/x_reader.dart';
+import '../common/int_x.dart';
+import '../common/x_reader.dart';
 
 class XQFHeader {
   late Short signature; // 文件标记 'XQ' = $5158

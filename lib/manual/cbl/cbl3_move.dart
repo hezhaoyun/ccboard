@@ -1,4 +1,4 @@
-import '../../common/x_reader.dart';
+import '../common/x_reader.dart';
 
 class CBL3Move {
   bool? isBranch, isLast;

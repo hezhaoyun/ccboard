@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import '../common/x_reader.dart';
+import 'common/x_reader.dart';
 import 'base/manual_base.dart';
 import 'cbl/cbl2_file.dart';
 import 'cbl/cbl3_file.dart';

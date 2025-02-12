@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../../common/int_x.dart';
-import '../../common/x_reader.dart';
+import '../common/int_x.dart';
+import '../common/x_reader.dart';
 import 'xqf_base.dart';
 
 class StoreNode {
