@@ -18,6 +18,8 @@ dependencies:
   chess: ^0.8.1
   image: ^4.5.2
   path_provider: ^2.1.5
+  charset: ^2.0.1
+  gbk_codec: ^0.4.0
 
 dev_dependencies:
   flutter_test:
