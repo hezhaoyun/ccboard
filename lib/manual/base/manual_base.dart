@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import 'cbl/cbl2_move.dart';
-import 'cbl/cbl3_move.dart';
-import 'xqf/xqf_base.dart';
+import '../cbl/cbl2_move.dart';
+import '../cbl/cbl3_move.dart';
+import '../xqf/xqf_base.dart';
 
 abstract class Manual {
   ManualTree? createTree();

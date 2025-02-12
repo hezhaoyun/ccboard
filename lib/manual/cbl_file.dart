@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import '../../common/x_reader.dart';
-import '../manual_base.dart';
-import 'cbl2_file.dart';
-import 'cbl3_file.dart';
+import '../common/x_reader.dart';
+import 'base/manual_base.dart';
+import 'cbl/cbl2_file.dart';
+import 'cbl/cbl3_file.dart';
 
 class CBLFile {
   String path;

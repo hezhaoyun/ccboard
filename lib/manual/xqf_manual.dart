@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import '../../common/int_x.dart';
-import '../../common/stack.dart';
-import '../../common/x_reader.dart';
-import '../../cchess/models/piece.dart';
-import '../../cchess/utils/fen.dart';
-import '../manual_base.dart';
-import 'xqf_base.dart';
-import 'xqf_tools.dart';
+import '../common/int_x.dart';
+import '../common/stack.dart';
+import '../common/x_reader.dart';
+import '../cchess/models/piece.dart';
+import '../cchess/utils/fen.dart';
+import 'base/manual_base.dart';
+import 'xqf/xqf_base.dart';
+import 'xqf/xqf_tools.dart';
 
 class XQFMovePack {
   XQFMove move;

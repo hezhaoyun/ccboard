@@ -5,7 +5,7 @@ import '../../common/stack.dart';
 import '../../common/x_reader.dart';
 import '../../cchess/models/piece.dart';
 import '../../cchess/utils/fen.dart';
-import '../manual_base.dart';
+import '../base/manual_base.dart';
 import 'cbl2_move.dart';
 
 /// 棋谱信息 {

@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../../common/x_reader.dart';
 import '../../cchess/models/piece.dart';
 import '../../cchess/utils/fen.dart';
-import '../manual_base.dart';
+import '../base/manual_base.dart';
 import 'cbl3_move.dart';
 
 class CBL3Manual extends Manual {
