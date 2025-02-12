@@ -1,6 +1,6 @@
 import 'piece.dart';
 import 'position.dart';
-import '../utils/rules.dart';
+import '../Knowledge/rules.dart';
 
 class Move {
   /// UCI move as follow:
