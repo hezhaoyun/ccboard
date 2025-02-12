@@ -125,7 +125,7 @@ class Rules {
     return false;
   }
 
-  static bool beCheckmated(Position position) {
+  static bool inCheckmate(Position position) {
     final moves = Rules.enumMoves(position);
 
     for (var move in moves) {
@@ -142,7 +142,7 @@ class Rules {
       for (var file = 0; file < 9; file++) {
         final index = rank * 9 + file;
         final piece = position.pieceAt(index);
-        if (PieceColor.of(piece) != position.sideToMove) continue;
+        if (PieceColor.of(piece) != position.turn) continue;
 
         List<Move> pieceMoves = enumMovesOf(position, index);
         moves.addAll(pieceMoves);
@@ -156,7 +156,7 @@ class Rules {
     final piece = position.pieceAt(index);
 
     if (piece == Piece.noPiece) return [];
-    if (PieceColor.of(piece) != position.sideToMove) return [];
+    if (PieceColor.of(piece) != position.turn) return [];
 
     final rank = index ~/ 9, file = index % 9;
 
@@ -182,7 +182,7 @@ class Rules {
   }
 
   static bool isValidMove(Position position, Move move) {
-    if (PieceColor.of(position.pieceAt(move.to)) == position.sideToMove) {
+    if (PieceColor.of(position.pieceAt(move.to)) == position.turn) {
       return false;
     }
 
@@ -224,7 +224,7 @@ class Rules {
 
     final redRange = [66, 67, 68, 75, 76, 77, 84, 85, 86];
     final blackRange = [3, 4, 5, 12, 13, 14, 21, 22, 23];
-    final range = (position.sideToMove == PieceColor.red ? redRange : blackRange);
+    final range = (position.turn == PieceColor.red ? redRange : blackRange);
 
     final moves = <Move>[];
 
@@ -232,7 +232,7 @@ class Rules {
       final offset = offsetList[i];
       final to = (rank + offset[0]) * 9 + file + offset[1];
 
-      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.sideToMove) {
+      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.turn) {
         continue;
       }
 
@@ -254,7 +254,7 @@ class Rules {
 
     final redRange = [66, 68, 76, 84, 86];
     final blackRange = [3, 5, 13, 21, 23];
-    final range = position.sideToMove == PieceColor.red ? redRange : blackRange;
+    final range = position.turn == PieceColor.red ? redRange : blackRange;
 
     final moves = <Move>[];
 
@@ -262,7 +262,7 @@ class Rules {
       final offset = offsetList[i];
       final to = (rank + offset[0]) * 9 + file + offset[1];
 
-      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.sideToMove) {
+      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.turn) {
         continue;
       }
 
@@ -291,7 +291,7 @@ class Rules {
 
     final redRange = [47, 51, 63, 67, 71, 83, 87];
     final blackRange = [2, 6, 18, 22, 26, 38, 42];
-    final range = position.sideToMove == PieceColor.red ? redRange : blackRange;
+    final range = position.turn == PieceColor.red ? redRange : blackRange;
 
     final moves = <Move>[];
 
@@ -306,7 +306,7 @@ class Rules {
       final offset = offsetList[i];
       final to = (rank + offset[0]) * 9 + (file + offset[1]);
 
-      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.sideToMove) {
+      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.turn) {
         continue;
       }
 
@@ -349,7 +349,7 @@ class Rules {
       if (nr < 0 || nr > 9 || nc < 0 || nc > 9) continue;
 
       final to = nr * 9 + nc;
-      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.sideToMove) {
+      if (!posOnBoard(to) || PieceColor.of(position.pieceAt(to)) == position.turn) {
         continue;
       }
 
@@ -378,7 +378,7 @@ class Rules {
       if (target == Piece.noPiece) {
         moves.add(Move(from, to));
       } else {
-        if (PieceColor.of(target) != position.sideToMove) {
+        if (PieceColor.of(target) != position.turn) {
           moves.add(Move(from, to));
         }
         break;
@@ -393,7 +393,7 @@ class Rules {
       if (target == Piece.noPiece) {
         moves.add(Move(from, to));
       } else {
-        if (PieceColor.of(target) != position.sideToMove) {
+        if (PieceColor.of(target) != position.turn) {
           moves.add(Move(from, to));
         }
         break;
@@ -408,7 +408,7 @@ class Rules {
       if (target == Piece.noPiece) {
         moves.add(Move(from, to));
       } else {
-        if (PieceColor.of(target) != position.sideToMove) {
+        if (PieceColor.of(target) != position.turn) {
           moves.add(Move(from, to));
         }
         break;
@@ -423,7 +423,7 @@ class Rules {
       if (target == Piece.noPiece) {
         moves.add(Move(from, to));
       } else {
-        if (PieceColor.of(target) != position.sideToMove) {
+        if (PieceColor.of(target) != position.turn) {
           moves.add(Move(from, to));
         }
         break;
@@ -450,7 +450,7 @@ class Rules {
         }
       } else {
         if (target != Piece.noPiece) {
-          if (PieceColor.of(target) != position.sideToMove) {
+          if (PieceColor.of(target) != position.turn) {
             moves.add(Move(from, to));
           }
           break;
@@ -473,7 +473,7 @@ class Rules {
         }
       } else {
         if (target != Piece.noPiece) {
-          if (PieceColor.of(target) != position.sideToMove) {
+          if (PieceColor.of(target) != position.turn) {
             moves.add(Move(from, to));
           }
           break;
@@ -496,7 +496,7 @@ class Rules {
         }
       } else {
         if (target != Piece.noPiece) {
-          if (PieceColor.of(target) != position.sideToMove) {
+          if (PieceColor.of(target) != position.turn) {
             moves.add(Move(from, to));
           }
           break;
@@ -519,7 +519,7 @@ class Rules {
         }
       } else {
         if (target != Piece.noPiece) {
-          if (PieceColor.of(target) != position.sideToMove) {
+          if (PieceColor.of(target) != position.turn) {
             moves.add(Move(from, to));
           }
           break;
@@ -531,25 +531,25 @@ class Rules {
   }
 
   static List<Move> enumPawnMoves(Position position, int rank, int file, int from) {
-    var to = (rank + (position.sideToMove == PieceColor.red ? -1 : 1)) * 9 + file;
+    var to = (rank + (position.turn == PieceColor.red ? -1 : 1)) * 9 + file;
 
     final moves = <Move>[];
 
-    if (posOnBoard(to) && PieceColor.of(position.pieceAt(to)) != position.sideToMove) {
+    if (posOnBoard(to) && PieceColor.of(position.pieceAt(to)) != position.turn) {
       moves.add(Move(from, to));
     }
 
-    if ((position.sideToMove == PieceColor.red && rank < 5) || (position.sideToMove == PieceColor.black && rank > 4)) {
+    if ((position.turn == PieceColor.red && rank < 5) || (position.turn == PieceColor.black && rank > 4)) {
       if (file > 0) {
         to = rank * 9 + file - 1;
-        if (posOnBoard(to) && PieceColor.of(position.pieceAt(to)) != position.sideToMove) {
+        if (posOnBoard(to) && PieceColor.of(position.pieceAt(to)) != position.turn) {
           moves.add(Move(from, to));
         }
       }
 
       if (file < 8) {
         to = rank * 9 + file + 1;
-        if (posOnBoard(to) && PieceColor.of(position.pieceAt(to)) != position.sideToMove) {
+        if (posOnBoard(to) && PieceColor.of(position.pieceAt(to)) != position.turn) {
           moves.add(Move(from, to));
         }
       }
@@ -570,7 +570,7 @@ class Rules {
 
     final redRange = [66, 67, 68, 75, 76, 77, 84, 85, 86];
     final blackRange = [3, 4, 5, 12, 13, 14, 21, 22, 23];
-    final range = (position.sideToMove == PieceColor.red) ? redRange : blackRange;
+    final range = (position.turn == PieceColor.red) ? redRange : blackRange;
 
     return binarySearch(range, 0, range.length - 1, move.to) >= 0;
   }
@@ -583,7 +583,7 @@ class Rules {
     if (adx != 1 || ady != 1) return false;
 
     final redRange = [66, 68, 76, 84, 86], blackRange = [3, 5, 13, 21, 23];
-    final range = (position.sideToMove == PieceColor.red) ? redRange : blackRange;
+    final range = (position.turn == PieceColor.red) ? redRange : blackRange;
 
     return binarySearch(range, 0, range.length - 1, move.to) >= 0;
   }
@@ -596,7 +596,7 @@ class Rules {
     if (adx != 2 || ady != 2) return false;
 
     final redRange = [47, 51, 63, 67, 71, 83, 87], blackRange = [2, 6, 18, 22, 26, 38, 42];
-    final range = (position.sideToMove == PieceColor.red) ? redRange : blackRange;
+    final range = (position.turn == PieceColor.red) ? redRange : blackRange;
 
     if (binarySearch(range, 0, range.length - 1, move.to) < 0) return false;
 
@@ -766,7 +766,7 @@ class Rules {
 
     if (adx > 1 || ady > 1 || (adx + ady) > 1) return false;
 
-    if (position.sideToMove == PieceColor.red) {
+    if (position.turn == PieceColor.red) {
       if (fy > 4 && adx != 0) return false;
       if (dy > 0) return false;
     } else {
@@ -786,7 +786,7 @@ class Rules {
       final piece = position.pieceAt(i);
 
       if (piece == Piece.redKing || piece == Piece.blackKing) {
-        if (position.sideToMove == PieceColor.of(piece)) return i;
+        if (position.turn == PieceColor.of(piece)) return i;
       }
     }
 

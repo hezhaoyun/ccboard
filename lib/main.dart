@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'ccboard/board_template.dart';
 import 'ccboard/chessboard.dart';
 import 'ccboard/components/hints.dart';
 import 'ccboard/models/arrow.dart';
@@ -13,10 +14,8 @@ import 'ccboard/models/hint_map.dart';
 import 'ccboard/models/piece_drop_event.dart';
 import 'ccboard/models/square.dart';
 import 'ccboard/models/ui_adapter.dart';
-import 'ccboard/board_template.dart';
 import 'cchess/cchess.dart';
 import 'cchess/models/move.dart';
-import 'cchess/models/position.dart';
 
 void main() {
   runApp(const MyApp());
@@ -87,7 +86,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void showHintFields(SquareInfo square, String piece) {
-    final moves = chess.generateMoves(square.toString());
+    final moves = chess.movesOf(square.toString());
 
     final hintMap = HintMap(key: square.index.toString());
 
@@ -143,7 +142,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setDefaultFen() {
-    chess.position = Position.defaultPosition();
+    chess.reset();
     controller.setFen(chess.fen);
   }
 

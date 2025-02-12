@@ -31,7 +31,7 @@ class Fen {
       if (rank < 9) fen += '/';
     }
 
-    fen += ' ${position.sideToMove}';
+    fen += ' ${position.turn}';
 
     // 王车易位和吃过路兵标志
     fen += ' - - ';

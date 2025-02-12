@@ -119,7 +119,7 @@ class Position with FenMixin {
     if (turnSide) _sideToMove = PieceColor.opponent(_sideToMove);
   }
 
-  Move? regret() {
+  Move? undo() {
     final lastMove = _recorder.removeLast();
 
     if (lastMove != null) {
@@ -169,7 +169,7 @@ class Position with FenMixin {
 
     final tempPosition = Position.clone(this);
     for (var i = 0; i < 9; i++) {
-      tempPosition.regret();
+      tempPosition.undo();
     }
 
     tempPosition.move(last9moves(0));
@@ -273,7 +273,7 @@ class Position with FenMixin {
 
   int indexOf(String piece) => _pieces.indexOf(piece);
 
-  String get sideToMove => _sideToMove;
+  String get turn => _sideToMove;
   void turnSide() => _sideToMove = PieceColor.opponent(_sideToMove);
 
   // broken access to recorder outside
