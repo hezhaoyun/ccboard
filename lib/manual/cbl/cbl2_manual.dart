@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import '../common/stack.dart';
 import '../common/x_reader.dart';
 import '../../cchess/models/piece.dart';
-import '../../cchess/Knowledge/fen.dart';
+import '../../cchess/knowledge/fen.dart';
 import '../base/manual_base.dart';
 import 'cbl2_move.dart';
 

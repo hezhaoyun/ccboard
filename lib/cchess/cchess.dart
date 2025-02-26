@@ -1,8 +1,8 @@
 import 'package:ccboard/cchess/models/position.dart';
 
 import 'models/move.dart';
-import 'Knowledge/fen.dart';
-import 'Knowledge/rules.dart';
+import 'knowledge/fen.dart';
+import 'knowledge/rules.dart';
 
 class CChess {
   Position _position;

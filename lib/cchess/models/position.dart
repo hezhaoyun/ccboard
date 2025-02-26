@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../Knowledge/fen.dart';
+import '../knowledge/fen.dart';
 import 'game_result.dart';
 import 'move.dart';
 import 'move_recorder.dart';
 import 'piece.dart';
-import '../Knowledge/rules.dart';
+import '../knowledge/rules.dart';
 
 class Position with FenMixin {
   var result = GameResult.pending;

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../common/x_reader.dart';
 import '../../cchess/models/piece.dart';
-import '../../cchess/Knowledge/fen.dart';
+import '../../cchess/knowledge/fen.dart';
 import '../base/manual_base.dart';
 import 'cbl3_move.dart';
 

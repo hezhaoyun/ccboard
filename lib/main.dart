@@ -51,7 +51,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   UIAdapter uiAdapter() {
-    Widget wrap(ImageProvider image, double size) => Image(image: image, width: size, height: size, fit: BoxFit.fill);
+    Widget wrap(ImageProvider image, double size) {
+      return Image(image: image, width: size, height: size, fit: BoxFit.fill);
+    }
 
     return UIAdapter(
       board: BoardTemplate().getBoardImage()!,

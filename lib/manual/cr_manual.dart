@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-import '../cchess/Knowledge/fen.dart';
+import '../cchess/knowledge/fen.dart';
 import 'base/manual_base.dart';
 
 class Moves {

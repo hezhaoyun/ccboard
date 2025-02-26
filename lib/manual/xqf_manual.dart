@@ -7,7 +7,7 @@ import 'common/int_x.dart';
 import 'common/stack.dart';
 import 'common/x_reader.dart';
 import '../cchess/models/piece.dart';
-import '../cchess/Knowledge/fen.dart';
+import '../cchess/knowledge/fen.dart';
 import 'base/manual_base.dart';
 import 'xqf/xqf_base.dart';
 import 'xqf/xqf_tools.dart';
