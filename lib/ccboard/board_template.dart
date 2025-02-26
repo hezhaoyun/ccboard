@@ -8,7 +8,7 @@ class BoardTemplate {
   static const kCacheKeyBoardArea = 'key-board-area';
   static const kValidImageSize = Size(810, 1138);
   static const kBoardArea = Rect.fromLTWH(50, 50, 710, 860);
-  static const kBoardLayoutArea = Rect.fromLTWH(61, 98, 688, 765);
+  static const kBoardLayoutArea = Rect.fromLTWH(61, 98, 688, 764);
   static const kPiecesArea = Rect.fromLTWH(50, 960, 448, 128);
   static const kBgColorArea = Rect.fromLTWH(548, 960, 212, 128);
 
